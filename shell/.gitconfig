@@ -1,0 +1,133 @@
+[include]
+    path = ~/.gitconfig.user
+
+
+[core]
+    pager = less -+$LESS -R
+    excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
+;    hooksPath = ./submodules/git-config/hooks
+
+
+[color]
+    ui = auto
+[color "diff"]
+    ; NOTE: these won't be used when you use a pager that has its own colorscheme (eg: executing `git commit -v` which then calls `vim`)
+    meta = blue bold
+    frag = yellow
+    func = magenta
+    plain = white
+    old = red
+    new = green
+    commit = yellow
+    whitespace = normal red
+[color "branch"]
+    current = yellow bold reverse
+    local = yellow bold
+    remote = blue bold
+[color "status"]
+    header = white
+    branch = yellow bold reverse
+    added = green
+    changed = blue
+    untracked = cyan
+
+
+[pager]
+    delta = delta               # override pager for this command/alias
+
+
+[alias]
+    # BASICS
+    np = !git --no-pager
+    st = status
+    co = checkout
+    br = branch
+
+    # BRANCHES
+    ## list all branches
+    lab = branch -a
+    ## list branches visualize as a tree
+    #lbt = log --graph --full-history --all --pretty=format:"%h%x09%d%x20%s"
+    #lbd = $HOME/bin/git-branches.sh
+    ## git branches ordered by "recently modified first", from https://news.ycombinator.com/item?id=25280178
+    brt = "!git for-each-ref refs/heads --color=always --sort -committerdate --format='%(HEAD)%(color:reset);%(color:yellow)%(refname:short)%(color:reset);%(contents:subject);%(color:green)(%(committerdate:relative))%(color:blue);<%(authorname)>' | column -t -s ';'"
+
+    # COMMITS
+    ci = commit
+    civ = commit -v
+    civa = commit -v -a
+    # always creating a commit object avoids losing information
+    menoff = merge --no-ff
+
+    # DIFFS
+    df = diff
+    dc = diff --cached
+    dh = diff HEAD                              # show both staged and unstaged changes
+    ds = !git --no-pager diff --stat -r HEAD    # show differences summary
+    dw = diff --word-diff
+    delta = diff                                # alias where the pager is overridden
+#    dd = "!bash -c ' \
+#        cd -- ${GIT_PREFIX:-.}; \
+#        filename=\"$1\"; \
+#        filename_git=`git ls-files --full-name \"$1\"`; \
+#        diff -u0 -wB <(sort \"$filename\") <(git show HEAD:\"$filename_git\" | sort -); \
+#        '" -
+    # this version (which uses the script) is better because it calls vim automatically
+    ddd = !git_diff_data_delta.sh
+
+    # TAGS
+    ## list tags and corresponding tag message:
+    ltm = tag -l -n1
+    ## list tags and corresponding timestamp:
+    ltt = log --tags --simplify-by-decoration --pretty='format:%ai %d'
+    ## list tags and associated commit:
+    ltc = show-ref --tags
+
+    # LOGS
+    ## log one liner
+    lol = log --oneline
+    ## log with statistics on file changes
+    lst = log --stat
+    ## list commit history for current branch
+    lbh = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    ## list it all! all commits for all branch with full information (most verbose one)
+    lia = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %Cgreen(%cr, %ad) %C(bold blue)(%an <%ae>)%Creset' --date=iso --abbrev-commit --full-history --all
+    ## show log with associated patch
+    logp = log -p
+
+    # ACTIVITY
+    ## number of commits per user?
+    who = shortlog -s --
+    ## file history changes,  https://stackoverflow.com/questions/278192/view-the-change-history-of-a-file-using-git-versioning/5493663#5493663
+    lfh = log --follow -p --
+
+    # dealing with conflicts
+    gitkconflict = !gitk --left-right HEAD...MERGE_HEAD
+
+    # remote
+    psom = push -u origin master
+    psum = push -u upstream master
+    plom = pull -u origin master
+    plum = pull -u upstream master
+
+    # management
+    ;jira = !open "https://jira.bigcorp.com/browse/$(git rev-parse --abbrev-ref HEAD | sed -E 's#(feature|hotfix)/##')"
+    ;reset-keychain = !git config --global credential.helper osxkeychain
+
+
+# this setting could have been done instead in .git/config
+;[merge "verify"]
+;    name = force conflicts during merge
+;    driver = /home/kaizoku/home/root/bin/git_mergemanual.sh %A %O %B
+
+;[credential]
+;    helper = osxkeychain
+;    username = user123
+
+;[push]
+;    default = current
+
+;[pager]
+;    branch = false
+

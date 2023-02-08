@@ -1,0 +1,165 @@
+# minimalistic shell environment setup with no dependencies for bash and zsh
+#
+# installation:
+#    cp $this_file /etc/skel/.shellrc
+#    chown root:root /etc/skel/.shellrc
+#    chmod 644 /etc/skel/.shellrc
+#    # then for each user:
+#    ln -s /etc/skel/.shellrc ~/.shellrc
+#    # then append the following to ~/.bashrc and ~/.zshrc of each user
+#    if [ -f "$HOME/.shellrc" ]; then
+#        . "$HOME/.shellrc"
+#    fi
+
+
+function __set_bash_history {
+    shopt -s histappend                 # append instead of overwrite history
+    shopt -s cmdhist                    # properly save multi-line commands
+    shopt -s lithist                    # don't replace newlines with semicolons in history
+    shopt -s cdspell                    # fix typos when changing directories
+    export HISTFILESIZE=10000           # write more history
+    export HISTSIZE=10000               # remember more history
+    export HISTCONTROL=ignoreboth       # ignore commands beginning with a space and duplicates
+    export HISTIGNORE='ls:bg:fg'        # ignore lame commands
+    export PROMPT_COMMAND='history -a'  # store history immediately
+}
+
+function __set_zsh_history {
+    HISTFILE=~/.zhistfile
+    HISTSIZE=10000000
+    SAVEHIST=10000000
+    setopt appendhistory
+    setopt incappendhistory             # history will be saved after every command you run (good for when power failures happen)
+    setopt histignorealldups            # ignore duplicates
+    setopt histignorespace              # ignore commands that have a leading space
+}
+
+function __set_bash_config {
+    bind 'TAB':menu-complete                    # use Tab to cycle through multiple matches for completion
+    bind '"\e[Z": menu-complete-backward'       # use shift-Tab to cycle backwards
+    bind "set menu-complete-display-prefix on"  # perform partial completion on the first Tab press, only start cycling full results on the second Tab press
+    #bind "set show-all-if-ambiguous on"         # display a list of the matching files (annoying because it creates a new lines, making it look like a command was entered)
+    #bind "set completion-display-width 1"       # display one column with matches
+}
+
+_force_rehash() {
+    (( CURRENT == 1 )) && rehash
+    return 1  # Because we didn't really complete anything
+}
+
+function __set_zsh_config {
+    # misc
+    TIMEFMT=$'%J\n%U user \n%S system \n%P cpu %*E total'   # zsh time builtin results format
+    setopt interactivecomments                  # ignore lines starting with # when using an interactive shell
+    # completion
+    autoload -Uz compinit                       # completion support
+    compinit                                    # completion support
+    zmodload zsh/complist                       # (without this bindkey -M menuselect will fail)
+    zstyle ':completion:*' completer _oldlist _expand _force_rehash _complete _files    # completion settings
+    zstyle ':completion:*' special-dirs true    # add completion for parent dirs (ie: ../)
+    zstyle ':completion:*' menu select
+    fpath=(/usr/local/share/zsh-completions $fpath)
+    zshf="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    if [[ -e "$zshf" ]]; then
+        source "$zshf"
+    fi
+    bindkey -M menuselect '^[[Z' reverse-menu-complete      # cycle completions backwards
+    # bindings / shortcuts                                  # TODO: move this and create proper full set of vi bindings
+    bindkey '^[[Z' backward-kill-word                       # delete previous word using shift+tab (very convenient when dealing with completions)
+    # TO DELETE:
+#    zstyle ':completion:*' auto-description 'specify: %d'
+#    zstyle ':completion:*' completer _expand _complete _correct _approximate
+#    zstyle ':completion:*' format 'Completing %d'
+#    zstyle ':completion:*' group-name ''
+#    zstyle ':completion:*' menu select=2
+#    eval "$(dircolors -b)"
+#    zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+#    zstyle ':completion:*' list-colors ''
+#    zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+#    zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+#    zstyle ':completion:*' menu select=long
+#    zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+#    zstyle ':completion:*' use-compctl false
+#    zstyle ':completion:*' verbose true
+#    zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+#    zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+}
+
+function _set_shell {
+    if [ -n "$BASH_VERSION" ]; then
+        __set_bash_history
+        __set_bash_config
+    elif [ -n "$ZSH_VERSION" ]; then
+        __set_zsh_history
+        __set_zsh_config
+    fi
+}
+
+function _set_term_colors {
+    # configure colors for less (man pages, searching, etc.)
+    export LESS_TERMCAP_mb=$(tput bold; tput setaf 1)    # red
+    export LESS_TERMCAP_md=$(tput bold; tput setaf 4)    # blue
+    export LESS_TERMCAP_me=$(tput sgr0)
+    export LESS_TERMCAP_so=$(tput setaf 7; tput setab 5) # white on magenta
+    export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+    export LESS_TERMCAP_us=$(tput smul; tput setaf 7)    # white
+    export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+    export LESS_TERMCAP_mr=$(tput rev)
+    export LESS_TERMCAP_mh=$(tput dim)
+    export LESS_TERMCAP_ZN=$(tput ssubm)
+    export LESS_TERMCAP_ZV=$(tput rsubm)
+    export LESS_TERMCAP_ZO=$(tput ssupm)
+    export LESS_TERMCAP_ZW=$(tput rsupm)
+}
+
+function _set_misc_options {
+    export LESS='-Mig'
+    export PAGER=less
+    export EDITOR=vim
+    export VISUAL=vim
+}
+
+function _set_prompt {
+    fg_red='\e[1;31m'
+    fg_brown='\e[0;33m'
+    fg_blue='\e[1;34m'
+    fg_reset='\e[0m'
+    fg_hostname="\e[1;32;38;5;$((0x$((echo 'some salt'; hostname) | sha256sum | cut -f1 -d' ' | tr -d '\n' | tail -c2)))m"
+    if (( $EUID == 0 )); then
+        shell_prompt="#"
+        fg_user="$fg_red"
+    else
+        shell_prompt="$"
+        fg_user="$fg_blue"
+    fi
+    if [ -n "$BASH_VERSION" ]; then
+        # colors need to be enclosed in brackets like \[$color\] to ensure prompt won't break on line wraps and such
+        PS1="\[${fg_user}\]\u\[${fg_brown}\]@\[${fg_hostname}\]\h\[${fg_brown}\]${shell_prompt}\[${fg_reset}\] "
+    elif [ -n "$ZSH_VERSION" ]; then
+        PS1="$(print ""%{$fg_user%}%n%{$fg_brown%}@%{$fg_hostname%}%M%{$fg_brown%}${shell_prompt}%{$fg_reset%} "")"
+    fi
+    export PS1
+}
+
+
+
+
+# alias (not easily sourced from functions)
+alias ls='ls --color=auto'
+## most convenient and sensible
+alias l='ls -la --color=always --group-directories-first --time-style=long-iso'
+## natural sort of numbers (including versioning)
+alias lln='ls -la --color=always --group-directories-first --time-style=long-iso -v'
+## reverse time (most recent at bottom)
+alias llr='ls -la --color=always --group-directories-first --time-style=long-iso -t -r'
+## full time (microsecond)
+alias llf='ls -la --color=always --group-directories-first --full-time'
+
+
+
+# main
+_set_shell
+_set_term_colors
+_set_misc_options
+_set_prompt
+
