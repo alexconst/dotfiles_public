@@ -50,7 +50,7 @@ private_template() {
   mkdir -p $folder_name/ssh
   mkdir -p $folder_name/shell
   touch $folder_name/shell/.gitconfig.user
-  echo "[user]\n    email = $USER@$(hostname)\n    name = $USER" > $folder_name/shell/.gitconfig.user
+  echo -e "[user]\n    email = $USER@$(hostname).local\n    name = $USER" > $folder_name/shell/.gitconfig.user
   touch $folder_name/shell/.shellrc.local
 }
 

@@ -34,7 +34,7 @@ $tool private-template dotfiles_private
 # as an example for ssh
 mv ~/.ssh ~/dotfiles_private/ssh/
 cd dotfiles_private
-echo ".ssh" > .gitignore
+echo ".ssh" > .gitignore # add safeguard (but you can still cherry pick files to git add)
 stow ssh
 stow shell
 ```
