@@ -141,24 +141,30 @@ Current configuration:
 "
 }
 
-check_requirements() {
-    if [[ -z $git_server ]] || [[ -z $git_port ]]; then
-        usage
-        echo "ERROR: variables git_server and git_port must be properly configured."
-        exit 1
-    fi
+check_config() {
+  if [[ -z $git_server ]] || [[ -z $git_port ]]; then
+    echo "WARN: variables git_server and git_port have not been configured. Setting defaults:"
+    export git_server=mothership
+    export git_port=23231
+    echo -e "\tgit_server: $git_server"
+    echo -e "\tgit_port:   $git_port"
+    echo -e "\tgit_remote: $git_remote"
+  fi
 }
 
 
 
 
-# check requirements
-check_requirements
-
 # process command line arguments
 if [[ $# -eq 0 ]]; then
   usage
+  check_config
+  exit
 fi
+
+# check requirements
+check_config
+
 while [[ $# -gt 0 ]]; do
   key="$1"
   case $key in
