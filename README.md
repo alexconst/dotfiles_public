@@ -8,12 +8,17 @@ How to pull and deploy your dotfiles in a brand new machine AFAP.
 # add an host entry for the git server
 sudo vim /etc/hosts
 
-export git_server="mothership" # adapt as needed
+# define the remote git server being used
+export git_server="mothership"
 export git_port="23231"
-tool="/tmp/dotfiler.sh"  # can be deleted after we cloned our dotfiles
 
+# for the user
+tool="/tmp/dotfiler.sh"  # can be deleted after we cloned our dotfiles
 ssh $git_server -p $git_port cat dotfiles_public/$(basename $tool) > $tool
 chmod +x $tool
+# for root (after you set up the user... and assuming you trust it!)
+tool=/home/replicant/dotfiles_public/dotfiler.sh
+
 cd
 $tool clone dotfiles_public
 
