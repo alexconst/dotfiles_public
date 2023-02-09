@@ -28,14 +28,28 @@ run_stow() {
 
 # deploy-dotfiles operation: run stow
 deploy_dotfiles() {
-    export stow_args=" "
-    run_stow "$1"
+  export stow_args=" "
+  run_stow "$1"
 }
 
 # adopt-dotfiles operation: run stow
 adopt_dotfiles() {
-    export stow_args="--adopt"
-    run_stow "$1"
+  export stow_args="--adopt"
+  run_stow "$1"
+}
+
+# private-template operation: create folder structure
+private_template() {
+  local folder_name="$1"
+  if [[ -z $folder_name ]]; then
+    folder_name="dotfiles_private"
+  fi
+  cd $HOME
+  mkdir -p $folder_name/ssh
+  mkdir -p $folder_name/shell
+  touch $folder_name/shell/.gitconfig.user
+  echo "[user]\n    email = $USER@$(hostname)\n    name = $USER" > $folder_name/shell/.gitconfig.user
+  touch $folder_name/shell/.shellrc.local
 }
 
 # browse operation: browse soft-serve git repo
@@ -109,8 +123,9 @@ Usage: $0 [options]\n
   -h, --help     Show this help message
 
 Commands:
-  adopt-dotfiles   Moves dotfiles into the dotfiles repo and then deploys links. Expects as argument a \$repo_name
+  adopt-dotfiles   Moves dotfiles into the repo and then deploys links with stow. Expects as argument a \$repo_name
   deploy-dotfiles  Deploys dotfiles with stow. Expects as argument a \$repo_name
+  private-template Creates a dotfiles_private folder structure. Accepts optional argument for the \$folder_name
   browse-server    Accesses the soft-serve git server
   get-repo         Clones a git repo if it doesn't exist. It it exists then does a git pull. Expects as argument a \$repo_name
   set-remote       Sets a remote server origin. Expects as argument a \$repo_name, if none them uses default basedir
@@ -157,6 +172,10 @@ while [[ $# -gt 0 ]]; do
     ;;
     deploy-dotfiles)
       deploy_dotfiles $2
+      break
+    ;;
+    private-template)
+      private_template $2
       break
     ;;
     browse-server)
