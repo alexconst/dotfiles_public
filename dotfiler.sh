@@ -47,17 +47,27 @@ browse() {
   fi
 }
 
-# clone operation: clone a git repo via ssh
-clone() {
+# get-repo operation: clone a git repo via ssh or pull/update from remote
+get_repo() {
   local repo_name="$1"
   if [[ -z $repo_name ]]; then
     echo "ERROR: expected a repo_name as argument"
     return
   fi
   if [ "$dry_run" = "true" ]; then
-    echo "Dry run: git clone ssh://$git_server:$git_port/$repo_name"
+    if [[ -d "$repo_name" ]]; then
+      echo "Dry run: cd ${repo_name}"
+      echo "Dry run: git pull"
+    else
+      echo "Dry run: git clone ssh://$git_server:$git_port/$repo_name"
+    fi
   else
-    git clone ssh://$git_server:$git_port/$repo_name
+    if [[ -d "$repo_name" ]]; then
+      cd "$repo_name"
+      git pull
+    else
+      git clone ssh://$git_server:$git_port/$repo_name
+    fi
   fi
 }
 
@@ -102,7 +112,7 @@ Commands:
   adopt-dotfiles   Moves dotfiles into the dotfiles repo and then deploys links. Expects as argument a \$repo_name
   deploy-dotfiles  Deploys dotfiles with stow. Expects as argument a \$repo_name
   browse-server    Accesses the soft-serve git server
-  clone            Clones a git repo. Expects as argument a \$repo_name
+  get-repo         Clones a git repo if it doesn't exist. It it exists then does a git pull. Expects as argument a \$repo_name
   set-remote       Sets a remote server origin. Expects as argument a \$repo_name, if none them uses default basedir
   push             Push committed changes to remote
   usage            Prints this help message
@@ -153,8 +163,8 @@ while [[ $# -gt 0 ]]; do
       browse
       break
     ;;
-    clone)
-      clone $2
+    get-repo)
+      get_repo $2
       break
     ;;
     set-remote)
