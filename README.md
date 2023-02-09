@@ -23,10 +23,10 @@ cd
 $tool get-repo dotfiles_public
 
 # OPTION 1: you don't have any dotfiles in the current system or don't mind overwriting them
-$tool -d deploy-dotfiles dotfiles_public
+$tool -n deploy-dotfiles dotfiles_public
 $tool deploy-dotfiles dotfiles_public
 # OPTION 2: you have dotfiles and want to keep those changes and integrate them with the dotfiles repo
-$tool -d adopt-dotfiles dotfiles_public
+$tool -n adopt-dotfiles dotfiles_public
 $tool adopt-dotfiles dotfiles_public
 
 # create folder structure for private dotfiles. It doesn't stow anything automatically, you have to do it manually
