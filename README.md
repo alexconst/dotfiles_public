@@ -20,7 +20,7 @@ chmod +x $tool
 tool=/home/replicant/dotfiles_public/dotfiler.sh
 
 cd
-$tool clone dotfiles_public
+$tool get-repo dotfiles_public
 
 # OPTION 1: you don't have any dotfiles in the current system or don't mind overwriting them
 $tool -d deploy-dotfiles dotfiles_public
