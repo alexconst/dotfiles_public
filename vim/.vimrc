@@ -103,6 +103,12 @@ set listchars=tab:>-,trail:.,extends:>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""
+" plugins
+""""""""""""""""""""""""""""""""""""""""""""""""
+execute pathogen#infect()
+filetype plugin indent on
+
+""""""""""""""""""""""""""""""""""""""""""""""""
 " colours / themes
 """"""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256                        " enable 256-color terminal support
