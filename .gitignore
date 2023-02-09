@@ -1,2 +1,13 @@
+# vim swap files
 *.swp
+# ignore mru type of file
 vim/.vim/.netrwhist
+# ignore folder where other git repos exist (this avoids the errors like:
+# hint: You've added another git repository inside your current repository.
+# hint: Clones of the outer repository will not contain the contents of
+# hint: the embedded repository and will not know how to obtain it.
+# hint: If you meant to add a submodule, use:
+# hint: 
+# hint: 	git submodule add <url> vim/.vim/bundle/vim-markdown
+vim/.vim/bundle
+
