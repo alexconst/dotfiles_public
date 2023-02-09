@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: (hindsight is 2020) refactor code to use a $dotfiles_public/private env variables instead of accepting a parameter to operations
+
 # flag to decide if the script makes any changes or just does a dry run
 dry_run=false
 

@@ -39,7 +39,17 @@ stow ssh
 stow shell
 ```
 
-# Other tasks
+# Dotfile backups
+Ensure dotfiles are (referenced) in a location that is included by your backup system
+YMMV here on what you need to do
+```bash
+cd $USER/data/home/
+ln -s $HOME/dotfiles_public .
+ln -s $HOME/dotfiles_private .
+```
+
+
+# Browse the git repo
 
 ```bash
 # browse the git server repos
