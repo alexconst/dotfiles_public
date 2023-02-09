@@ -18,7 +18,8 @@ $tool clone dotfiles_public
 $tool -d deploy-dotfiles dotfiles_public
 $tool deploy-dotfiles dotfiles_public
 
-# OPTION 2: you don't want to overwrite your existing dotfiles
-# manually overwrite them ... or run stow to copy them???  stow --adopt ???
+# OPTION 2: you have dotfiles and want to keep those changes and integrate them with the dotfiles repo
+$tool -d adopt-dotfiles dotfiles_public
+$tool adopt-dotfiles dotfiles_public
 ```
 

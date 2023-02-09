@@ -6,8 +6,9 @@ dry_run=false
 # default git remote name
 git_remote=${git_remote:-home}
 
-# deploy-dotfiles operation: clone repo and run stow
-deploy_dotfiles() {
+
+# run stow to either deploy or retrieve dotfiles
+run_stow() {
   local folder_name="$1"
   if [[ -z $folder_name ]]; then
     echo "ERROR: expected the dotfiles folder as argument"
@@ -17,12 +18,24 @@ deploy_dotfiles() {
   if [ "$dry_run" = "true" ]; then
     echo "Dry run: cd ${folder_name}"
     cd ${folder_name}
-    echo "Dry run:"
-    stow -n --verbose=2 $(ls -d */ | xargs -n 1 basename | paste -sd ' ')
+    echo "Dry run: stow -n --verbose=2 ${stow_args} $(ls -d */ | xargs -n 1 basename | paste -sd ' ')"
+    stow -n --verbose=2 ${stow_args} $(ls -d */ | xargs -n 1 basename | paste -sd ' ')
   else
     cd ${folder_name}
-    stow $(ls -d */ | xargs -n 1 basename | paste -sd ' ')
+    stow ${stow_args} $(ls -d */ | xargs -n 1 basename | paste -sd ' ')
   fi
+}
+
+# deploy-dotfiles operation: run stow
+deploy_dotfiles() {
+    export stow_args=" "
+    run_stow "$1"
+}
+
+# adopt-dotfiles operation: run stow
+adopt_dotfiles() {
+    export stow_args="--adopt"
+    run_stow "$1"
 }
 
 # browse operation: browse soft-serve git repo
@@ -86,8 +99,9 @@ Usage: $0 [options]\n
   -h, --help     Show this help message
 
 Commands:
+  adopt-dotfiles   Moves dotfiles into the dotfiles repo and then deploys links. Expects as argument a \$repo_name
   deploy-dotfiles  Deploys dotfiles with stow. Expects as argument a \$repo_name
-  browse           Accesses the soft-serve git server
+  browse-server    Accesses the soft-serve git server
   clone            Clones a git repo. Expects as argument a \$repo_name
   set-remote       Sets a remote server origin. Expects as argument a \$repo_name, if none them uses default basedir
   push             Push committed changes to remote
@@ -127,11 +141,15 @@ while [[ $# -gt 0 ]]; do
     -h|--help)
       usage
     ;;
+    adopt-dotfiles)
+      adopt_dotfiles $2
+      break
+    ;;
     deploy-dotfiles)
       deploy_dotfiles $2
       break
     ;;
-    browse)
+    browse-server)
       browse
       break
     ;;
