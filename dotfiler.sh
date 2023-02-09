@@ -128,8 +128,8 @@ Commands:
   private-template Creates a dotfiles_private folder structure. Accepts optional argument for the \$folder_name
   browse-server    Accesses the soft-serve git server
   get-repo         Clones a git repo if it doesn't exist. It it exists then does a git pull. Expects as argument a \$repo_name
-  set-remote       Sets a remote server origin. Expects as argument a \$repo_name, if none them uses default basedir
-  push             Push committed changes to remote
+  set-remote       Sets a remote server origin. Expects as argument a \$repo_name, if none then it uses the current pwd
+  push             Push committed changes to remote (you can also just do a plain git push)
   usage            Prints this help message
 
 Current configuration:
