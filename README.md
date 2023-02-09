@@ -9,7 +9,7 @@ export git_server="mothership" # adapt as needed
 export git_port="23231"
 tool="/tmp/dotfiler.sh"  # can be deleted after we cloned our dotfiles
 
-ssh $server -p $port cat dotfiles_public/$tool > $tool
+ssh $git_server -p $git_port cat dotfiles_public/$tool > $tool
 chmod +x $tool
 cd
 $tool clone dotfiles_public
