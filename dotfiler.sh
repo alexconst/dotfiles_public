@@ -121,7 +121,7 @@ About:
 
 Usage: $0 [options]\n
   Options
-  -d, --dry-run  Dry run, echo the commands that would be executed without actually executing them
+  -n, --dry-run  Dry run, echo the commands that would be executed without actually executing them
   -h, --help     Show this help message
 
 Commands:
@@ -168,7 +168,7 @@ check_config
 while [[ $# -gt 0 ]]; do
   key="$1"
   case $key in
-    -d|--dry-run)
+    -n|--dry-run)
       dry_run=true
     ;;
     -h|--help)
