@@ -33,16 +33,21 @@
     untracked = cyan
 
 
+[push]
+    default = current
+
+[pull]
+    rebase = false
+
 [pager]
     delta = delta               # override pager for this command/alias
-
 
 [alias]
     # BASICS
     np = !git --no-pager
     st = status
     co = checkout
-    br = branch
+    br = !git --no-pager branch
 
     # BRANCHES
     ## list all branches
@@ -66,7 +71,7 @@
     dh = diff HEAD                              # show both staged and unstaged changes
     ds = !git --no-pager diff --stat -r HEAD    # show differences summary
     dw = diff --word-diff
-    delta = diff                                # alias where the pager is overridden
+    delta = diff                                # alias where the pager is overridden (https://github.com/dandavison/delta)
 #    dd = "!bash -c ' \
 #        cd -- ${GIT_PREFIX:-.}; \
 #        filename=\"$1\"; \
@@ -116,20 +121,15 @@
     ;reset-keychain = !git config --global credential.helper osxkeychain
 
 
-# this setting could have been done instead in .git/config
+# this setting could have been done instead in .git/config or ~/.gitconfig.user
 ;[merge "verify"]
 ;    name = force conflicts during merge
-;    driver = /home/kaizoku/home/root/bin/git_mergemanual.sh %A %O %B
+;    driver = ~/home/root/bin/git_mergemanual.sh %A %O %B
 
 ;[credential]
 ;    helper = osxkeychain
 ;    username = user123
 
-;[push]
-;    default = current
-
 ;[pager]
 ;    branch = false
 
-[pull]
-	rebase = false
