@@ -32,6 +32,13 @@ run_stow() {
 deploy_dotfiles() {
   export stow_args=" "
   run_stow "$1"
+  local folder_name="$1"
+  cd ${folder_name}
+  if [ "$dry_run" = "true" ]; then
+    echo "Dry run: git submodule update --init --recursive"
+  else
+    git submodule update --init --recursive
+  fi
 }
 
 # adopt-dotfiles operation: run stow
@@ -126,7 +133,7 @@ Usage: $0 [options]\n
 
 Commands:
   adopt-dotfiles   Moves dotfiles into the repo and then deploys links with stow. Expects as argument a \$repo_name
-  deploy-dotfiles  Deploys dotfiles with stow. Expects as argument a \$repo_name
+  deploy-dotfiles  Deploys dotfiles with stow and inits git submodules. Expects as argument a \$repo_name
   private-template Creates a dotfiles_private folder structure. Accepts optional argument for the \$folder_name
   browse-server    Accesses the soft-serve git server
   set-remote       Sets a remote server origin. Expects as argument a \$repo_name, if none then it uses the current pwd

@@ -12,11 +12,11 @@ sudo vim /etc/hosts
 export git_server="mothership"
 export git_port="23231"
 
-# for the user
+# OPTION A: for the user
 tool="/tmp/dotfiler.sh"  # can be deleted after we cloned our dotfiles
 ssh $git_server -p $git_port cat dotfiles_public/$(basename $tool) > $tool
 chmod +x $tool
-# for root (after you set up the user... and assuming you trust it!)
+# OPTION B: for root (only do this pass after you set up the user... and assuming that user isn't compromised!)
 tool=/home/replicant/dotfiles_public/dotfiler.sh
 
 cd
