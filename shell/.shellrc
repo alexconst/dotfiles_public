@@ -1,3 +1,5 @@
+# vi: ft=sh
+
 # minimalistic shell environment setup with no dependencies for bash and zsh
 #
 # installation:
@@ -143,6 +145,7 @@ function _set_prompt {
 }
 
 
+# set PATH
 export PATH=$PATH:$HOME/data/home/bin:/opt/bin
 
 # alias (not easily sourced from functions)
@@ -159,6 +162,7 @@ alias llf='ls -la --color=always --group-directories-first --full-time'
 if [[ -f $HOME/dotfiles_private/shell/.shellrc.local ]]; then
     source $HOME/dotfiles_private/shell/.shellrc.local
 fi
+
 
 # main
 _set_shell
