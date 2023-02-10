@@ -57,3 +57,10 @@ ssh $git_server -p $git_port -t
 ```
 
 
+# Push new repo to server
+This isn't exclusive to dotfiles, but more of a convenience type of thing on using our local git server
+```bash
+cd $some_git_repo
+$tool push-repo
+```
+

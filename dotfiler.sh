@@ -102,12 +102,12 @@ set_remote() {
   fi
 }
 
-# push operation: push changes to remote
-push() {
+# push-repo operation: push all branches to remote
+push_repo() {
   if [ "$dry_run" = "true" ]; then
-    echo "Dry run: git push -u $git_remote"
+    echo "Dry run: git push -u $git_remote" --all
   else
-    git push -u $git_remote
+    git push -u $git_remote --all
   fi
 }
 
@@ -129,9 +129,9 @@ Commands:
   deploy-dotfiles  Deploys dotfiles with stow. Expects as argument a \$repo_name
   private-template Creates a dotfiles_private folder structure. Accepts optional argument for the \$folder_name
   browse-server    Accesses the soft-serve git server
-  get-repo         Clones a git repo if it doesn't exist. It it exists then does a git pull. Expects as argument a \$repo_name
   set-remote       Sets a remote server origin. Expects as argument a \$repo_name, if none then it uses the current pwd
-  push             Push committed changes to remote (you can also just do a plain git push)
+  get-repo         Clones a git repo if it doesn't exist. It it exists then does a git pull. Expects as argument a \$repo_name
+  push-repo        Push all branches of repo in pwd to remote (also particularly useful if the repo doesn't exist on the server yet)
   usage            Prints this help message
 
 Current configuration:
@@ -198,8 +198,8 @@ while [[ $# -gt 0 ]]; do
       set_remote $2
       break
     ;;
-    push)
-      push
+    push-repo)
+      push_repo
       break
     ;;
     *)    # unknown option
