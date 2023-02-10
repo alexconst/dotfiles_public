@@ -17,7 +17,7 @@ run_stow() {
     return
   fi
   folder_name="$(readlink -f $folder_name)"
-  pushd .
+  pushd . >/dev/null
   if [ "$dry_run" = "true" ]; then
     echo "Dry run: cd ${folder_name}"
     cd ${folder_name}
@@ -27,7 +27,7 @@ run_stow() {
     cd ${folder_name}
     stow ${stow_args} $(ls -d */ | xargs -n 1 basename | paste -sd ' ')
   fi
-  popd
+  popd >/dev/null
 }
 
 # deploy-dotfiles operation: run stow
