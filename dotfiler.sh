@@ -94,10 +94,10 @@ set_remote() {
     repo_name="$(basename `pwd`)"
   fi
   if [ "$dry_run" = "true" ]; then
-    echo "Dry run: git remote rm origin 2>/dev/null || true"
+    #echo "Dry run: git remote rm origin 2>/dev/null || true"
     echo "Dry run: git remote add $git_remote ssh://$git_server:$git_port/$repo_name"
   else
-    git remote rm origin 2>/dev/null || true
+    #git remote rm origin 2>/dev/null || true
     git remote add $git_remote ssh://$git_server:$git_port/$repo_name
   fi
 }
