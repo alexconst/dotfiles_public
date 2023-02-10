@@ -1,22 +1,21 @@
-[submodule "nerdtree"]
-    path = vim/.vim/bundle/nerdtree
-    url = https://github.com/preservim/nerdtree.git
-    #branch = master
-[submodule "tabline.vim"]
-    path = vim/.vim/bundle/tabline.vim
-    url = https://github.com/mkitt/tabline.vim.git
-[submodule "vim-colors-solarized"]
-    path = vim/.vim/bundle/vim-colors-solarized
-    url = https://github.com/altercation/vim-colors-solarized.git
-[submodule "vim-plugin-AnsiEsc"]
-    path = vim/.vim/bundle/vim-plugin-AnsiEsc
-    url = https://github.com/powerman/vim-plugin-AnsiEsc.git
+[submodule "vim/.vim/bundle/nerdtree"]
+	path = vim/.vim/bundle/nerdtree
+	url = https://github.com/preservim/nerdtree.git
+	#branch = master
+[submodule "vim/.vim/bundle/tabline.vim"]
+	path = vim/.vim/bundle/tabline.vim
+	url = https://github.com/mkitt/tabline.vim.git
+[submodule "vim/.vim/bundle/vim-colors-solarized"]
+	path = vim/.vim/bundle/vim-colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized.git
+[submodule "vim/.vim/bundle/vim-plugin-AnsiEsc"]
+	path = vim/.vim/bundle/vim-plugin-AnsiEsc
+	url = https://github.com/powerman/vim-plugin-AnsiEsc.git
 
-[submodule "vim-markdown"]
-    path = vim/.vim/bundle/vim-markdown
-    url = ssh://mothership:23231/vim-markdown
-    branch = feat/toc_location
-[submodule "vim-pajema"]
-    path = vim/.vim/bundle/vim-pajema
-    url = ssh://mothership:23231/vim-pajema
-
+[submodule "vim/.vim/bundle/vim-markdown"]
+	path = vim/.vim/bundle/vim-markdown
+	url = ssh://mothership:23231/vim-markdown
+	branch = feat/toc_location
+[submodule "vim/.vim/bundle/vim-pajema"]
+	path = vim/.vim/bundle/vim-pajema
+	url = ssh://mothership:23231/vim-pajema
