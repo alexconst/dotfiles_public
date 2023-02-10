@@ -7,6 +7,7 @@ How to pull and deploy your dotfiles in a brand new machine AFAP.
 ```bash
 # add an host entry for the git server
 sudo vim /etc/hosts
+sudo apt-get install stow
 
 # define the remote git server being used
 export git_server="mothership"
