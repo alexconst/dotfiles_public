@@ -7,6 +7,7 @@ How to pull and deploy your dotfiles in a brand new machine AFAP.
 ```bash
 # add an host entry for the git server
 sudo vim /etc/hosts
+    # 192.168.122.1   mothership
 sudo apt-get install stow
 
 # define the remote git server being used
@@ -25,10 +26,10 @@ $tool get-repo dotfiles_public
 
 # OPTION 1: you don't have any dotfiles in the current system or don't mind overwriting them
 $tool -n deploy-dotfiles dotfiles_public
-$tool deploy-dotfiles dotfiles_public
-# OPTION 2: you have dotfiles and want to keep those changes and integrate them with the dotfiles repo
-$tool -n adopt-dotfiles dotfiles_public
-$tool adopt-dotfiles dotfiles_public
+$tool    deploy-dotfiles dotfiles_public
+# OPTION 2: you already have dotfiles and want to keep them and integrate them with the dotfiles repo (packagename can be something like `vim`, `shell`, `wmde`)
+$tool -n adopt-dotfiles dotfiles_public $packagename $dotfile1 ... $dotfileN
+$tool    adopt-dotfiles dotfiles_public $packagename $dotfile1 ... $dotfileN
 
 # create folder structure for private dotfiles. It doesn't stow anything automatically, you have to do it manually
 $tool private-template dotfiles_private
@@ -50,11 +51,17 @@ ln -s $HOME/dotfiles_private .
 ```
 
 
-# Browse the git repo
-
+# Track new file
+This will move an existing dotfile into the chosen package in your dotfile repo and then deploy it (ie, link from the repo to its expected location) using stow.
 ```bash
-# browse the git server repos
-ssh $git_server -p $git_port -t
+$tool -n adopt-dotfiles $HOME/dotfiles_public $packagename $dotfile1 ... $dotfileN
+$tool    adopt-dotfiles $HOME/dotfiles_public $packagename $dotfile1 ... $dotfileN
+
+# examples
+cd ~
+$tool    adopt-dotfiles dotfiles_public shell .bashrc .profile
+$tool    adopt-dotfiles dotfiles_public vim .vimrc
+$tool    adopt-dotfiles dotfiles_public wmde ~/.config/i3/config
 ```
 
 
@@ -64,4 +71,15 @@ This isn't exclusive to dotfiles, but more of a convenience type of thing on usi
 cd $some_git_repo
 $tool push-repo
 ```
+
+# Browse the git repo
+```bash
+# browse the git server repos
+ssh $git_server -p $git_port -t
+
+# you can also use dotfiler
+$tool
+$tool browse-server
+```
+
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TODO: (hindsight is 2020) refactor code to use a $dotfiles_public/private env variables instead of accepting a parameter to operations
+# TODO: (hindsight is 20-20) refactor code to use a $dotfiles_public/private env variables instead of accepting a parameter to operations
 
 # flag to decide if the script makes any changes or just does a dry run
 dry_run=false
@@ -45,8 +45,22 @@ deploy_dotfiles() {
 
 # adopt-dotfiles operation: run stow
 adopt_dotfiles() {
-  export stow_args="--adopt"
-  run_stow "$1"
+  export stow_args=" "
+  dotfiles_folder="$(readlink -f $1)"
+  package_name="$2"
+  shift 2
+  for dotfile in "$@"; do
+    subfolder=$(readlink -f "${dotfile}" | sed "s#$HOME/##" | xargs dirname)
+    destination="${dotfiles_folder}/${package_name}/${subfolder}"
+    if [ "$dry_run" = "true" ]; then
+      echo "Dry run: mkdir -p ${destination}"
+      echo "Dry run: mv -n ${dotfile} ${destination}/"
+    else
+      mkdir -p "${destination}"
+      mv -n "${dotfile}" "${destination}/"
+    fi
+  done
+  deploy_dotfiles "$dotfiles_folder"
 }
 
 # private-template operation: create folder structure
@@ -184,7 +198,8 @@ while [[ $# -gt 0 ]]; do
       usage
     ;;
     adopt-dotfiles)
-      adopt_dotfiles $2
+      shift
+      adopt_dotfiles "$@"
       break
     ;;
     deploy-dotfiles)
