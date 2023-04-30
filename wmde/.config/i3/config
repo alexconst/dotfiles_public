@@ -10,14 +10,15 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $alt Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+#font pango:monospace 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+font pango:DejaVu Sans Mono 8
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -55,7 +56,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+m exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -183,10 +184,37 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# Color shemes for windows 
+set $bgcolor    #523d6499
+set $in-bgcolor #3636364D
+set $text       #ffffff
+set $u-bgcolor  #ff0000
+set $indicator  #a8a3c1
+set $in-text    #969696
+set $focused-ws #523d6480
+set $bar-color  #523d640D
+set $separator  #191919
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+#bar {
+#        status_command i3status
+#}
 bar {
-        status_command i3status
+    status_command i3blocks -c $HOME/.config/i3/i3blocks.conf
+    #i3bar_command i3bar --transparency
+    #tray_output none
+    #font pango: Droid Sans Mono 11
+    font pango: DejaVu Sans Mono 10
+    #font pango: Font Awesome 6 Free 10
+    colors {
+        background $bar-color
+        separator $separator
+        #                   border          background      text
+        focused_workspace   $focused-ws     $focused-ws     $text
+        inactive_workspace  $in-bgcolor     $in-bgcolor     $text
+        urgent_workspace    $u-bgcolor      $u-bgcolor      $text    
+    }
 }
 
 # Improved exit menu
@@ -199,4 +227,39 @@ mode "session: [l]ock, [e]xit, [r]eboot, [s]hutdown" {
   bindsym Return mode "default"
 }
 bindsym $mod+Shift+x mode "session: [l]ock, [e]xit, [r]eboot, [s]hutdown"
+
+# some extra shortcuts
+## show desktop/wallpaper
+bindsym $mod+d workspace number $ws10
+## cycle
+bindsym $mod+Tab workspace next
+## cycle
+bindsym $mod+Shift+Tab workspace prev
+## close window
+bindsym $alt+F4 kill
+## set wallpaper
+#exec_always --no-startup-id test -e "$HOME/wallpapers/wallpaper.jpg" && feh --bg-fill "$HOME/wallpapers/wallpaper.jpg"
+exec_always --no-startup-id feh --randomize --bg-scale ~/wallpapers/*
+
+
+#mode "select-display" {
+#  exec --no-startup-id xrandr | grep ' connected' | cut -d' ' -f1 | xargs -I {} echo -n {} 0 | while read line; do;
+#    index=`echo $line | cut -d' ' -f2`;
+#    display=`echo $line | cut -d' ' -f1`;
+#    bindsym $mod+Ctrl+$index mode "resolution-$display"
+#  done
+#}
+#
+#mode "resolution-DISPLAY_NAME" {
+#    exec --no-startup-id xrandr --current | grep 'DISPLAY_NAME connected' | cut -d' ' -f4 | sed 's/x/ /g' | sort -nr | head -4 | xargs -I {} echo -n {} 0 | while read line; do 
+#        index=`echo $line | cut -d' ' -f2`
+#        width=`echo $line | cut -d' ' -f1`
+#        height=`echo $line | cut -d' ' -f2`
+#        bindsym $mod+Ctrl+$index exec --no-startup-id xrandr --output DISPLAY_NAME --mode $width$height
+#        bindsym $mod+Ctrl+$width$height exec --no-startup-id xrandr --output DISPLAY_NAME --mode $width$height
+#    done
+#}
+#
+#bindsym $mod+Shift+d mode "select-display"
+
 
