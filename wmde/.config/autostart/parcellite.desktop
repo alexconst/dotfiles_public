@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Parcellite
+Comment=Clipboard manager
+TryExec=parcellite
+Exec=parcellite
+Icon=parcellite
+Terminal=false
+# OnlyShowIn=XFCE;X-Cinnamon;
+# Hidden=true

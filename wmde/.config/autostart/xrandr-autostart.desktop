@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=XRandR autostart
+Comment=Start xrandr with settings done in LXRandR
+Exec=sh -c 'xrandr --output VGA-1 --mode 800x600'
+#Exec=sh -c 'xrandr --output VGA-1 --mode 1600x900'
+#Exec=sh -c 'xrandr --output VGA-1 --mode 1600x900'
+# OnlyShowIn=LXDE;i3;

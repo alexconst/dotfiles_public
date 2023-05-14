@@ -1,0 +1,13 @@
+configuration {
+  modi: "drun,run,ssh,window,combi";
+  show-icons: true;
+  icon-theme: "Papirus";
+}
+
+@theme "/usr/share/rofi/themes/Monokai.rasi"
+/* Theme modifications */
+element.selected.normal {
+    background-color: @separatorcolor;
+    text-color:       @red;
+}
+
