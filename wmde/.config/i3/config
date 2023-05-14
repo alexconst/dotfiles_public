@@ -11,6 +11,8 @@
 
 set $mod Mod4
 set $alt Mod1
+set $ctl Control
+set $terminal xterm
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -56,11 +58,11 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+m exec --no-startup-id dmenu_run
+# bindsym $mod+m exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
-# There also is i3-dmenu-desktop which only displays applications shipping a
-# .desktop file. It is a wrapper around dmenu, so you need that installed.
+bindsym $mod+m exec "rofi -show drun"
+# There also is i3-dmenu-desktop which only displays applications shipping a .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
@@ -124,7 +126,12 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
+# quick terminal:
 set $ws10 "10"
+# monitoring terminal:
+set $ws50 "50"
+# wallpaper (no windows):
+set $ws99 "99"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -195,27 +202,42 @@ set $focused-ws #523d6480
 set $bar-color  #523d640D
 set $separator  #191919
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
+####################
+# DEFAULT BAR
+####################
+# Start i3bar to display a workspace bar (plus the system information i3status finds out, if available)
 #bar {
 #        status_command i3status
 #}
-bar {
-    status_command i3blocks -c $HOME/.config/i3/i3blocks.conf
-    #i3bar_command i3bar --transparency
-    #tray_output none
-    #font pango: Droid Sans Mono 11
-    font pango: DejaVu Sans Mono 10
-    #font pango: Font Awesome 6 Free 10
-    colors {
-        background $bar-color
-        separator $separator
-        #                   border          background      text
-        focused_workspace   $focused-ws     $focused-ws     $text
-        inactive_workspace  $in-bgcolor     $in-bgcolor     $text
-        urgent_workspace    $u-bgcolor      $u-bgcolor      $text    
-    }
-}
+
+####################
+# CUSTOM BLOCKS BAR
+####################
+#bar {
+#    status_command i3blocks -c $HOME/.config/i3/i3blocks.conf
+#    #i3bar_command i3bar --transparency
+#    ##tray_output none
+#    #font pango: Droid Sans Mono 11
+#    font pango: DejaVu Sans Mono 10
+#    #font pango: Font Awesome 6 Free 10
+#    colors {
+#        background $bar-color
+#        separator $separator
+#        #                   border          background      text
+#        focused_workspace   $focused-ws     $focused-ws     $text
+#        inactive_workspace  $in-bgcolor     $in-bgcolor     $text
+#        urgent_workspace    $u-bgcolor      $u-bgcolor      $text
+#    }
+#}
+
+####################
+# POLYBAR
+####################
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# Start other widgets/apps
+exec /usr/bin/parcellite
+exec /usr/bin/nm-applet
 
 # Improved exit menu
 mode "session: [l]ock, [e]xit, [r]eboot, [s]hutdown" {
@@ -228,38 +250,28 @@ mode "session: [l]ock, [e]xit, [r]eboot, [s]hutdown" {
 }
 bindsym $mod+Shift+x mode "session: [l]ock, [e]xit, [r]eboot, [s]hutdown"
 
+
 # some extra shortcuts
+## drop down terminal by pressing ctrl+`
+bindsym $ctl+grave exec $HOME/.config/i3/scripts/terminal-toggle.sh $terminal
+## open terminal in folder
+bindsym Shift+F4 exec --no-startup-id cd "`xcwd`" && $terminal
+## switch to system monitoring workspace
+bindsym $mod+Shift+m workspace number $ws50
 ## show desktop/wallpaper
-bindsym $mod+d workspace number $ws10
-## cycle
+bindsym $mod+d workspace number $ws99
+## cycle workspaces
 bindsym $mod+Tab workspace next
-## cycle
+## cycle workspaces
 bindsym $mod+Shift+Tab workspace prev
+## use Alt+Tab to cycle through windows on the same workspace
+bindsym $alt+Tab exec --no-startup-id i3-msg border pixel 5; focus next
+bindsym --release $alt+Tab exec i3-msg border pixel 0
+bindsym $alt+Shift+Tab exec --no-startup-id i3-msg border pixel 5; focus prev
+bindsym --release $alt+Shift+Tab exec i3-msg border pixel 0
+
 ## close window
 bindsym $alt+F4 kill
 ## set wallpaper
-#exec_always --no-startup-id test -e "$HOME/wallpapers/wallpaper.jpg" && feh --bg-fill "$HOME/wallpapers/wallpaper.jpg"
 exec_always --no-startup-id feh --randomize --bg-scale ~/wallpapers/*
-
-
-#mode "select-display" {
-#  exec --no-startup-id xrandr | grep ' connected' | cut -d' ' -f1 | xargs -I {} echo -n {} 0 | while read line; do;
-#    index=`echo $line | cut -d' ' -f2`;
-#    display=`echo $line | cut -d' ' -f1`;
-#    bindsym $mod+Ctrl+$index mode "resolution-$display"
-#  done
-#}
-#
-#mode "resolution-DISPLAY_NAME" {
-#    exec --no-startup-id xrandr --current | grep 'DISPLAY_NAME connected' | cut -d' ' -f4 | sed 's/x/ /g' | sort -nr | head -4 | xargs -I {} echo -n {} 0 | while read line; do 
-#        index=`echo $line | cut -d' ' -f2`
-#        width=`echo $line | cut -d' ' -f1`
-#        height=`echo $line | cut -d' ' -f2`
-#        bindsym $mod+Ctrl+$index exec --no-startup-id xrandr --output DISPLAY_NAME --mode $width$height
-#        bindsym $mod+Ctrl+$width$height exec --no-startup-id xrandr --output DISPLAY_NAME --mode $width$height
-#    done
-#}
-#
-#bindsym $mod+Shift+d mode "select-display"
-
 
