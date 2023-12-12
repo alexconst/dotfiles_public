@@ -58,6 +58,22 @@ vnoremap <Bslash> y/<C-r>=substitute(@",'/','\\/','g')<CR><CR>
 " clear the search buffer by typing ,/ (, is used instead of : because vim shannaningas will cause an annoying delay)
 nmap <silent> ,/ :nohlsearch<CR>
 
+""""""""""""""""""""""""""""
+" make life easier shortcuts (may have to reconsinder these)
+""""""""""""""""""""""""""""
+" ctrl+s saves the current buffer
+map <C-s> <Esc>:w<CR>
+" in python: leader+b types in 'ipdb.set_trace()'
+au FileType python nmap <Leader>b Oipdb.set_trace()<Esc>
+" in markdown: ctrl+b makes text bold
+au FileType markdown vnoremap <silent> <C-b> :<C-u>execute "'<,'>s/\\%V.*\\%V./**&**/g \| :nohlsearch"<CR>`>4l
+" in markdown: ctrl+i makes text italic
+au FileType markdown vnoremap <silent> <C-i> :<C-u>execute "'<,'>s/\\%V.*\\%V./_&_/g \| :nohlsearch"<CR>`>2l
+" in markdown: ctrl+q makes text within tick quotes, NOTE: this is not ideal https://stackoverflow.com/questions/21806168/vim-use-ctrl-q-for-visual-block-mode-in-vim-gnome
+au FileType markdown vnoremap <silent> <C-q> :<C-u>execute "'<,'>s/\\%V.*\\%V./`&`/g \| :nohlsearch"<CR>`>2l
+" in markdown: <leader>m fixes Toc window (this is useful when loading a vim session, because due to a bug the location list gets nerfed out) (I had to use <bar> because Toc messes up)
+au FileType markdown nnoremap <buffer> <Leader>m :execute "wincmd w \| only \| Toc"<CR> <bar> :execute "wincmd w \| file"<CR>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 " tabs

@@ -159,6 +159,22 @@ alias llr='ls -la --color=always --group-directories-first --time-style=long-iso
 ## full time (microsecond)
 alias llf='ls -la --color=always --group-directories-first --full-time'
 
+# function to temporarily disable history
+alias incognito_aux="function zshaddhistory() {  return 1 }"
+function incognito(){
+    if [ -n "$BASH_VERSION" ]; then
+        HISTCONTROL="ignorespace"
+        set +o history
+    elif [ -n "$ZSH_VERSION" ]; then
+        setopt HIST_IGNORE_SPACE
+        setopt histignorespace
+        setopt hist_ignore_space
+        #incognito_aux # weirdly enough this still gets called when starting bash (at least from a zsh) so disabling it for now; it shouldn't make a difference
+    fi
+    unset HISTFILE
+}
+
+
 if [[ -f $HOME/dotfiles_private/shell/.shellrc.local ]]; then
     source $HOME/dotfiles_private/shell/.shellrc.local
 fi
