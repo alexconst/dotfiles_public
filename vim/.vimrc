@@ -71,7 +71,7 @@ au FileType markdown vnoremap <silent> <C-b> :<C-u>execute "'<,'>s/\\%V.*\\%V./*
 au FileType markdown vnoremap <silent> <C-i> :<C-u>execute "'<,'>s/\\%V.*\\%V./_&_/g \| :nohlsearch"<CR>`>2l
 " in markdown: ctrl+q makes text within tick quotes, NOTE: this is not ideal https://stackoverflow.com/questions/21806168/vim-use-ctrl-q-for-visual-block-mode-in-vim-gnome
 au FileType markdown vnoremap <silent> <C-q> :<C-u>execute "'<,'>s/\\%V.*\\%V./`&`/g \| :nohlsearch"<CR>`>2l
-" in markdown: <leader>m fixes Toc window (this is useful when loading a vim session, because due to a bug the location list gets nerfed out) (I had to use <bar> because Toc messes up)
+" in markdown: <leader>m fixes Toc window (this is useful when loading a vim session, because due to a bug the location list gets nerfed out) (I had to use <bar> because Toc messes up). How to: open a session, while the cursor is on the broken toc window, press leader m
 au FileType markdown nnoremap <buffer> <Leader>m :execute "wincmd w \| only \| Toc"<CR> <bar> :execute "wincmd w \| file"<CR>
 
 
