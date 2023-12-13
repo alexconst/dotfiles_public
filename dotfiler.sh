@@ -26,16 +26,38 @@ run_stow() {
   if [ "$dry_run" = "true" ]; then
     echo "Dry run: cd ${folder_name}"
     echo "Dry run: stow -n --verbose=2 ${stow_args} ${packages}"
-    stow -n --verbose=2 ${stow_args} $(ls -d */ | xargs -n 1 basename | paste -sd ' ')
+    stow -n --verbose=2 ${stow_args} ${packages}
   else
     stow ${stow_args} ${packages}
   fi
   popd >/dev/null
 }
 
+remove_dotfiles() {
+  local folder_name="$1"
+  local packages="${@:2}"
+
+  if [ "$dry_run" = "true" ]; then
+    echo "Dry run: would move existing files that conflict with stow packages:"
+  else
+    echo "Moving existing files that conflict with stow packages:"
+  fi
+  msg='* existing target is neither a link nor a directory:'
+  local dotfiles=( $(run_stow "$folder_name" "$packages" 2>&1 | grep "$msg" | sed "s#$msg##g") )
+  undo_folder="$HOME/dotfiler_bak"
+  for item in "${dotfiles[@]}"; do
+    cmd="mv -v -n ~/$item ${undo_folder}/"
+    if [ "$dry_run" = "true" ]; then
+      echo "$cmd"
+    else
+      mkdir -p $undo_folder
+      eval $cmd
+    fi
+  done
+}
+
 # deploy-dotfiles operation: run stow
 deploy_dotfiles() {
-  export stow_args=" "
   local deploy_mode="$1"
   local folder_name="$2"
   local packages="${@:3}"
@@ -219,11 +241,15 @@ while [[ $# -gt 0 ]]; do
     ;;
     deploy-dotfiles-from-local)
       shift
+      #export stow_args=" " # couldn't find a flag that would help in overwriting existing files with stow links
+      remove_dotfiles "$@"
       deploy_dotfiles "local" "$@"
       break
     ;;
     deploy-dotfiles-from-remote)
       shift
+      #export stow_args=" " # couldn't find a flag that would help in overwriting existing files with stow links
+      remove_dotfiles "$@"
       deploy_dotfiles "remote" "$@"
       break
     ;;
