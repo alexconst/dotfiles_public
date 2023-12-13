@@ -12,20 +12,23 @@ git_remote=${git_remote:-home}
 # run stow to either deploy or retrieve dotfiles
 run_stow() {
   local folder_name="$1"
+  local packages="${@:2}"
   if [[ -z $folder_name ]]; then
     echo "ERROR: expected the dotfiles folder as argument"
     return
   fi
   folder_name="$(readlink -f $folder_name)"
   pushd . >/dev/null
+  cd ${folder_name}
+  if [[ -z "$packages" ]]; then
+    packages=$(ls -d */ | xargs -n 1 basename | paste -sd ' ')
+  fi
   if [ "$dry_run" = "true" ]; then
     echo "Dry run: cd ${folder_name}"
-    cd ${folder_name}
-    echo "Dry run: stow -n --verbose=2 ${stow_args} $(ls -d */ | xargs -n 1 basename | paste -sd ' ')"
+    echo "Dry run: stow -n --verbose=2 ${stow_args} ${packages}"
     stow -n --verbose=2 ${stow_args} $(ls -d */ | xargs -n 1 basename | paste -sd ' ')
   else
-    cd ${folder_name}
-    stow ${stow_args} $(ls -d */ | xargs -n 1 basename | paste -sd ' ')
+    stow ${stow_args} ${packages}
   fi
   popd >/dev/null
 }
@@ -33,13 +36,19 @@ run_stow() {
 # deploy-dotfiles operation: run stow
 deploy_dotfiles() {
   export stow_args=" "
-  run_stow "$1"
-  local folder_name="$1"
-  cd ${folder_name}
-  if [ "$dry_run" = "true" ]; then
-    echo "Dry run: git submodule update --init --recursive"
-  else
-    git submodule update --init --recursive
+  local deploy_mode="$1"
+  local folder_name="$2"
+  local packages="${@:3}"
+
+  run_stow "$folder_name" "$packages"
+
+  if [ "$deploy_mode" = "remote" ]; then
+    cd ${folder_name}
+    if [ "$dry_run" = "true" ]; then
+        echo "Dry run: git submodule update --init --recursive"
+    else
+        git submodule update --init --recursive
+    fi
   fi
 }
 
@@ -60,7 +69,7 @@ adopt_dotfiles() {
       mv -n "${dotfile}" "${destination}/"
     fi
   done
-  deploy_dotfiles "$dotfiles_folder"
+  deploy_dotfiles "remote" "$dotfiles_folder" # NOTE: I'm not sure about using remote but at least maintains compatibility
 }
 
 # private-template operation: create folder structure
@@ -138,9 +147,9 @@ push_repo() {
 usage() {
   echo -e "
 About:
-  Helper script to install and manage dotfiles on a machine.
-  It pulls the dotfiles from a git repo over SSH and the deploys them using GNU stow.
-  It expects for the variables \$git_server and \$git_port to be set.
+  Helper script to install and manage dotfiles on a machine. It uses GNU stow to do so.
+  It can either deploy dotfiles from a restored backup.
+  Or deploy dotfiles in a blank system by pulling them from a git repo over SSH. It also helps with handling the remote git server. In which it expects the variables \$git_server and \$git_port to be set.
 
 Usage: $0 [options]\n
   Options
@@ -148,19 +157,25 @@ Usage: $0 [options]\n
   -h, --help     Show this help message
 
 Commands:
-  adopt-dotfiles   Moves dotfiles into the repo and then deploys links with stow. Expects as argument a \$repo_name
-  deploy-dotfiles  Deploys dotfiles with stow and inits git submodules. Expects as argument a \$repo_name
-  private-template Creates a dotfiles_private folder structure. Accepts optional argument for the \$folder_name
-  browse-server    Accesses the soft-serve git server
-  set-remote       Sets a remote server origin. Expects as argument a \$repo_name, if none then it uses the current pwd
-  get-repo         Clones a git repo if it doesn't exist. It it exists then does a git pull. Expects as argument a \$repo_name
-  push-repo        Push all branches of repo in pwd to remote (also particularly useful if the repo doesn't exist on the server yet)
-  usage            Prints this help message
+  adopt-dotfiles               Moves dotfiles into the repo and then deploys links with stow. Expects as argument a \$repo_name
+  deploy-dotfiles-from-local   Deploys dotfiles with stow using local repo with all files. Expects as argument a \$repo_name and optionally \$packages
+                               Use this when you restored your dotfiles from a backup and it already includes all submodules.
+  deploy-dotfiles-from-remote  Deploys dotfiles with stow and inits git submodules. Expects as argument a \$repo_name and optionally \$packages
+                               Use this when you you cloned the repo from a server.
+  private-template             Creates a dotfiles_private folder structure. Accepts optional argument for the \$folder_name
+  browse-server                Accesses the soft-serve git server
+  set-remote                   Sets a remote server origin. Expects as argument a \$repo_name, if none then it uses the current pwd
+  get-repo                     Clones a git repo if it doesn't exist. It it exists then does a git pull. Expects as argument a \$repo_name
+  push-repo                    Push all branches of repo in pwd to remote (also particularly useful if the repo doesn't exist on the server yet)
+  usage                        Prints this help message
 
 Current configuration:
   git_server: $git_server
   git_port:   $git_port
   git_remote: $git_remote
+
+
+NOTE: recent changes have been made and this hasn't been throughly tested yet. Not safe for prod. Run in VM instead.
 "
 }
 
@@ -202,8 +217,14 @@ while [[ $# -gt 0 ]]; do
       adopt_dotfiles "$@"
       break
     ;;
-    deploy-dotfiles)
-      deploy_dotfiles $2
+    deploy-dotfiles-from-local)
+      shift
+      deploy_dotfiles "local" "$@"
+      break
+    ;;
+    deploy-dotfiles-from-remote)
+      shift
+      deploy_dotfiles "remote" "$@"
       break
     ;;
     private-template)

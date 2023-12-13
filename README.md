@@ -2,7 +2,20 @@
 
 How to pull and deploy your dotfiles in a brand new machine AFAP.
 
-# Deploy dotfiles
+# Deploy dotfiles from local
+In this scenario the user restored a backup, so he already has the dotfiles, he is just missing the links.
+
+```bash
+cd $HOME/dotfiles_folder
+packages="shell vim"
+# dry run
+stow -n -R --verbose=2 $packages
+# wet run
+stow -R --verbose=2 $packages
+```
+
+# Deploy dotfiles from remote
+In this scenario the user doesn't have any dotfiles in his system.
 
 ```bash
 # add an host entry for the git server
