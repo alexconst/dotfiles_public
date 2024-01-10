@@ -15,7 +15,7 @@ stow -R --verbose=2 $packages
 ```
 
 # Deploy dotfiles from remote
-In this scenario the user doesn't have any dotfiles in his system.
+In this scenario the user doesn't have any dotfiles in his system and will pull them from a git server.
 
 ```bash
 # add an host entry for the git server
@@ -44,7 +44,7 @@ $tool    deploy-dotfiles dotfiles_public
 $tool -n adopt-dotfiles dotfiles_public $packagename $dotfile1 ... $dotfileN
 $tool    adopt-dotfiles dotfiles_public $packagename $dotfile1 ... $dotfileN
 
-# create folder structure for private dotfiles. It doesn't stow anything automatically, you have to do it manually
+# create folder structure for private dotfiles (ie these are not stored in the remote git server). It doesn't stow anything automatically, you have to do it manually
 $tool private-template dotfiles_private
 # as an example for ssh
 mv ~/.ssh ~/dotfiles_private/ssh/
