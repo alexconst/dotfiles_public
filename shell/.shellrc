@@ -1,17 +1,8 @@
 # vi: ft=sh
 
 # minimalistic shell environment setup with no dependencies for bash and zsh
-#
-# installation:
-#    cp $this_file /etc/skel/.shellrc
-#    chown root:root /etc/skel/.shellrc
-#    chmod 644 /etc/skel/.shellrc
-#    # then for each user:
-#    ln -s /etc/skel/.shellrc ~/.shellrc
-#    # then append the following to ~/.bashrc and ~/.zshrc of each user
-#    if [ -f "$HOME/.shellrc" ]; then
-#        . "$HOME/.shellrc"
-#    fi
+
+# TODO: (this script is past its purpose so maybe it's time to) split it into two files
 
 
 function __set_bash_history {
@@ -40,7 +31,7 @@ function __set_bash_config {
     bind 'TAB':menu-complete                    # use Tab to cycle through multiple matches for completion
     bind '"\e[Z": menu-complete-backward'       # use shift-Tab to cycle backwards
     bind "set menu-complete-display-prefix on"  # perform partial completion on the first Tab press, only start cycling full results on the second Tab press
-    #bind "set show-all-if-ambiguous on"         # display a list of the matching files (annoying because it creates a new lines, making it look like a command was entered)
+    bind "set show-all-if-ambiguous on"         # display a list of the matching files (annoying because it creates a new lines, making it look like a command was entered)
     #bind "set completion-display-width 1"       # display one column with matches
 }
 
@@ -53,12 +44,14 @@ function __set_zsh_config {
     # misc
     TIMEFMT=$'%J\n%U user \n%S system \n%P cpu %*E total'   # zsh time builtin results format
     setopt interactivecomments                  # ignore lines starting with # when using an interactive shell
+    setopt globdots                             # completion for hidden files (also forces completion for the . and .. folders)
     # completion
     autoload -Uz compinit                       # completion support
     compinit                                    # completion support
     zmodload zsh/complist                       # (without this bindkey -M menuselect will fail)
     zstyle ':completion:*' completer _oldlist _expand _force_rehash _complete _files    # completion settings
-    zstyle ':completion:*' special-dirs true    # add completion for parent dirs (ie: ../)
+    #zstyle ':completion:*' special-dirs true    # add completion for . and .. dirs when using globdots
+    zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)' # this disables completion for . when using globdots, but keeps ..
     zstyle ':completion:*' menu select
     fpath=(/usr/local/share/zsh-completions $fpath)
     zshf="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
