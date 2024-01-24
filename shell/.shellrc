@@ -48,6 +48,8 @@ function __set_zsh_config {
     # completion
     autoload -Uz compinit                       # completion support
     compinit                                    # completion support
+    autoload bashcompinit                       # completion support with bash compatibility
+    bashcompinit                                # completion support with bash compatibility
     zmodload zsh/complist                       # (without this bindkey -M menuselect will fail)
     zstyle ':completion:*' completer _oldlist _expand _force_rehash _complete _files    # completion settings
     #zstyle ':completion:*' special-dirs true    # add completion for . and .. dirs when using globdots
