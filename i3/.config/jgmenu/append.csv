@@ -1,0 +1,14 @@
+^sep()
+Lock,i3lock -c 000000,system-lock-screen
+i3,^checkout(i3),user-desktop
+Session,^checkout(session),system-shutdown
+^tag(i3)
+Randomize wallpaper,feh --randomize --bg-scale ~/wallpapers/*,image-x-generic
+Select resolution,sh -c "bash ~/.config/jgmenu/scripts/generate_resolutions.sh && jgmenu --csv-file=~/.config/jgmenu/resolutions.csv",video-display
+Redshift enable,sh -c "pkill -9 redshift && redshift -P -t 6500:4500",redshift
+Reload config,i3-msg reload,text-x-generic
+Restart i3,i3-msg restart,view-refresh
+^tag(session)
+Exit,sh -c "i3-nagbar -t warning -m \"Exit i3? This will end your X session.\" -B \"Yes. Exit i3\" \"i3-msg exit\"",system-log-out
+Suspend,sh -c "i3-nagbar -t warning -m \"Suspend system? This will save system state to RAM and sleep.\" -B \"Yes. Suspend system\" \"systemctl -i suspend\"",system-suspend
+Switch user,sh -c "i3-nagbar -t warning -m \"Switch to another user? This session will be left running.\" -B \"Yes. Switch user\" \"dm-tool switch-to-greeter\"",system-users
