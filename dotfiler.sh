@@ -36,15 +36,19 @@ run_stow() {
 remove_dotfiles() {
   local folder_name="$1"
   local packages="${@:2}"
+  undo_folder="$HOME/dotfiler_bak"
 
-  if [ "$dry_run" = "true" ]; then
-    echo "Dry run: would move existing files that conflict with stow packages:"
-  else
-    echo "Moving existing files that conflict with stow packages:"
-  fi
   msg='* existing target is neither a link nor a directory:'
   local dotfiles=( $(run_stow "$folder_name" "$packages" 2>&1 | grep "$msg" | sed "s#$msg##g") )
-  undo_folder="$HOME/dotfiler_bak"
+  if [[ ${#dotfiles[@]} -gt 0 ]]; then
+    if [ "$dry_run" = "true" ]; then
+      echo "Dry run: would move existing files that conflict with stow packages:"
+    else
+      echo "Moving existing files that conflict with stow packages:"
+    fi
+  else
+    echo "There are no files that conflict with the stow packages."
+  fi
   for item in "${dotfiles[@]}"; do
     cmd="mv -v -n ~/$item ${undo_folder}/"
     if [ "$dry_run" = "true" ]; then
@@ -280,7 +284,9 @@ while [[ $# -gt 0 ]]; do
       break
     ;;
     *)    # unknown option
-    usage
+      usage
+      echo "ERROR: unknown option: '$1'"
+      exit
     ;;
   esac
   shift # past argument or value
