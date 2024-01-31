@@ -6,7 +6,7 @@
 dry_run=false
 
 # default git remote name
-git_remote=${git_remote:-home}
+git_name=${git_name:-home}
 
 
 # run stow to either deploy or retrieve dotfiles
@@ -149,24 +149,25 @@ set_remote() {
   fi
   if [ "$dry_run" = "true" ]; then
     #echo "Dry run: git remote rm origin 2>/dev/null || true"
-    echo "Dry run: git remote add $git_remote ssh://$git_server:$git_port/$repo_name"
+    echo "Dry run: git remote add $git_name ssh://$git_server:$git_port/$repo_name"
   else
     #git remote rm origin 2>/dev/null || true
-    git remote add $git_remote ssh://$git_server:$git_port/$repo_name
+    git remote add $git_name ssh://$git_server:$git_port/$repo_name
   fi
 }
 
 # push-repo operation: push all branches to remote
 push_repo() {
   if [ "$dry_run" = "true" ]; then
-    echo "Dry run: git push -u $git_remote" --all
+    echo "Dry run: git push -u $git_name" --all
   else
-    git push -u $git_remote --all
+    git push -u $git_name --all
   fi
 }
 
 # usage operation
 usage() {
+  tool=$(basename $0)
   echo -e "
 About:
   Helper script to install and manage dotfiles on a machine. It uses GNU stow to do so.
@@ -192,10 +193,15 @@ Commands:
   usage                        Prints this help message
 
 Current configuration:
-  git_server: $git_server
-  git_port:   $git_port
-  git_remote: $git_remote
+  git_server: $git_server    (git server address)
+  git_port:   $git_port      (git server port)
+  git_name:   $git_name      (name to identify the \$git_server as part of the remotes in the git repo)
 
+To bootstrap in another machine with access to a remote a soft-serve git server:
+  ssh $git_server -p $git_port repo blob dotfiles_public $tool > $tool
+  chmod +x $tool
+  ./$tool get-repo dotfiles_public
+  rm $tool
 
 NOTE: recent changes have been made and this hasn't been throughly tested yet. Not safe for prod. Run in VM instead.
 "
@@ -208,7 +214,7 @@ check_config() {
     export git_port=23231
     echo -e "\tgit_server: $git_server"
     echo -e "\tgit_port:   $git_port"
-    echo -e "\tgit_remote: $git_remote"
+    echo -e "\tgit_name:   $git_name"
   fi
 }
 
@@ -217,8 +223,8 @@ check_config() {
 
 # process command line arguments
 if [[ $# -eq 0 ]]; then
-  usage
   check_config
+  usage
   exit
 fi
 
