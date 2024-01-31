@@ -105,10 +105,38 @@ private_template() {
     folder_name="dotfiles_private"
   fi
   cd $HOME
-  mkdir -p $folder_name/ssh
-  mkdir -p $folder_name/shell
-  touch $folder_name/shell/.gitconfig.user
-  echo -e "[user]\n    email = $USER@$(hostname).local\n    name = $USER" > $folder_name/shell/.gitconfig.user
+  msg_warn="WARN: skipping because file already exists:"
+  msg_info="INFO: DRY-RUN would create file:"
+
+  target_file="$folder_name/shell/.gitconfig.user"
+  mkdir -p $(dirname $target_file)
+  if [[ -f "$target_file" ]]; then
+    echo "$msg_warn $target_file"
+  elif [[ "$dry_run" == "true" ]]; then
+    echo "$msg_info $target_file"
+  else
+    cat <<'EOT' > "$target_file"
+[user]
+    email = $USER@$(hostname).local
+    name = $USER
+EOT
+  fi
+
+  target_file="$folder_name/ssh/.ssh/config"
+  mkdir -p $(dirname $target_file)
+  if [[ -f "$target_file" ]]; then
+    echo "$msg_warn $target_file"
+  elif [[ "$dry_run" == "true" ]]; then
+    echo "$msg_info $target_file"
+  else
+    cat <<'EOT' > "$target_file"
+Host softserve
+  HostName mothership
+  Port 23231
+  IdentityFile ~/.ssh/softserve_user_ed25519
+EOT
+  fi
+
   touch $folder_name/shell/.shellrc.local
 }
 
@@ -151,12 +179,17 @@ set_remote() {
   if [[ -z $repo_name ]]; then
     repo_name="$(basename `pwd`)"
   fi
+  git_address=$git_server
+  if [[ -n $git_port ]]; then
+    git_address=$git_server:$git_port
+  fi
+  cmd="git remote add $git_name ssh://$git_address/$repo_name"
   if [ "$dry_run" = "true" ]; then
     #echo "Dry run: git remote rm origin 2>/dev/null || true"
-    echo "Dry run: git remote add $git_name ssh://$git_server:$git_port/$repo_name"
+    echo "Dry run: $cmd"
   else
     #git remote rm origin 2>/dev/null || true
-    git remote add $git_name ssh://$git_server:$git_port/$repo_name
+    eval $cmd
   fi
 }
 
@@ -207,19 +240,19 @@ To bootstrap in another machine with access to a remote a soft-serve git server:
   ./$tool get-repo dotfiles_public
   rm $tool
 
-NOTE: recent changes have been made and this hasn't been throughly tested yet. Not safe for prod. Run in VM instead.
 "
 }
 
 check_config() {
-  if [[ -z $git_server ]] || [[ -z $git_port ]]; then
+  if [[ -z $git_server ]]; then
     echo "WARN: variables git_server and git_port have not been configured. Setting defaults:"
     export git_server=mothership
     export git_port=23231
-    echo -e "\tgit_server: $git_server"
-    echo -e "\tgit_port:   $git_port"
-    echo -e "\tgit_name:   $git_name"
   fi
+  echo "INFO: current settings:"
+  echo -e "\tgit_server: $git_server"
+  echo -e "\tgit_port:   $git_port"
+  echo -e "\tgit_name:   $git_name"
 }
 
 

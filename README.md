@@ -60,7 +60,8 @@ $tool    adopt-dotfiles ~/dotfiles_public $packagename $dotfile1 ... $dotfileN
 Create folder structure for private dotfiles (ie these are not stored in the remote git server). It doesn't stow anything automatically, you have to do it manually.
 ```bash
 # if you don't have such files yet then create a template
-$tool private-template ~/dotfiles_private
+$tool -n private-template ~/dotfiles_private
+$tool    private-template ~/dotfiles_private
 
 # as an example for ssh
 mv ~/.ssh ~/dotfiles_private/ssh/
@@ -73,6 +74,17 @@ echo ".ssh" > .gitignore # optional and will change depending if or to where you
 packages="shell ssh"
 $tool -n deploy-dotfiles-from-local ~/dotfiles_private $packages
 $tool    deploy-dotfiles-from-local ~/dotfiles_private $packages
+```
+
+
+## step 4: configure git remote
+
+This will update the git remote endpoint settings for the dotfiles_public repo. It sets the remote to make use of the `~/.ssh/config` settings, which helps when the git server requires authentication (to push).
+Make sure your `~/.ssh/config` is properly set and you have any required keys.
+```bash
+export git_server='softserve' ; export git_port='' ; export git_name='home'
+cd ~/dotfiles_public
+$tool set-remote
 ```
 
 
