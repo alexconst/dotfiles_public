@@ -33,6 +33,11 @@ run_stow() {
   popd >/dev/null
 }
 
+retreat_dotfiles() {
+  stow_args="--delete"
+  run_stow "$@"
+}
+
 remove_dotfiles() {
   local folder_name="$1"
   local packages="${@:2}"
@@ -217,11 +222,13 @@ Usage: $0 [options]\n
   -h, --help     Show this help message
 
 Commands:
-  adopt-dotfiles               Moves dotfiles into the repo and then deploys links with stow. Expects as argument a \$repo_name
   deploy-dotfiles-from-local   Deploys dotfiles with stow using local repo with all files. Expects as argument a \$repo_name and optionally \$packages
                                Use this when you restored your dotfiles from a backup and it already includes all submodules.
   deploy-dotfiles-from-remote  Deploys dotfiles with stow and inits git submodules. Expects as argument a \$repo_name and optionally \$packages
                                Use this when you you cloned the repo from a server.
+  retreat-dotfiles             Unstow (ie remove the links) of all dotfiles for the given \$packages
+                               Use this when you want to swap dotfile packages (eg: vim)
+  adopt-dotfiles               Moves dotfiles into the repo and then deploys links with stow. Expects as argument a \$repo_name
   private-template             Creates a dotfiles_private folder structure. Accepts optional argument for the \$folder_name
   browse-server                Accesses the soft-serve git server
   set-remote                   Sets a remote server origin. Expects as argument a \$repo_name, if none then it uses the current pwd
@@ -276,6 +283,11 @@ while [[ $# -gt 0 ]]; do
     adopt-dotfiles)
       shift
       adopt_dotfiles "$@"
+      break
+    ;;
+    retreat-dotfiles)
+      shift
+      retreat_dotfiles "$@"
       break
     ;;
     deploy-dotfiles-from-local)

@@ -89,7 +89,9 @@ $tool set-remote
 
 
 
-# Tracking new file
+# Managing dotfiles
+
+## Tracking new file
 This will move an existing dotfile into the chosen package in your dotfile repo and then deploy it (ie, link from the repo to its expected location) using stow.
 ```bash
 $tool -n adopt-dotfiles $HOME/dotfiles_public $packagename $dotfile1 ... $dotfileN
@@ -102,6 +104,13 @@ $tool    adopt-dotfiles dotfiles_public vim .vimrc
 $tool    adopt-dotfiles dotfiles_public wmde ~/.config/i3/config
 ```
 
+## Retreat dotfiles
+This will unstow (ie remove the links from your $HOME into your dotfiles_public) of all dotfiles in the given $packagename.
+This is useful for swapping dotfiles settings, eg: swap between vim dotfile packages
+```bash
+$tool -n retreat-dotfiles $HOME/dotfiles_public $packagename
+$tool    retreat-dotfiles $HOME/dotfiles_public $packagename
+```
 
 
 # Other tasks
