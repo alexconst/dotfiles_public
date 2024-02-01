@@ -229,10 +229,6 @@ Commands:
   push-repo                    Push all branches of repo in pwd to remote (also particularly useful if the repo doesn't exist on the server yet)
   usage                        Prints this help message
 
-Current configuration:
-  git_server: $git_server    (git server address)
-  git_port:   $git_port      (git server port)
-  git_name:   $git_name      (name to identify the \$git_server as part of the remotes in the git repo)
 
 To bootstrap in another machine with access to a remote a soft-serve git server:
   ssh $git_server -p $git_port repo blob dotfiles_public $tool > $tool
@@ -249,10 +245,10 @@ check_config() {
     export git_server=mothership
     export git_port=23231
   fi
-  echo "INFO: current settings:"
-  echo -e "\tgit_server: $git_server"
-  echo -e "\tgit_port:   $git_port"
-  echo -e "\tgit_name:   $git_name"
+  printf "INFO: current settings:\n"
+  printf "  %-30s %s\n" "git_server: $git_server" "(git server address)"
+  printf "  %-30s %s\n" "git_port: $git_port" "(git server port)"
+  printf "  %-30s %s\n" "git_name: $git_name" "(name to identify the \$git_server as part of the remotes in the git repo)"
 }
 
 
