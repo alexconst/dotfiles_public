@@ -2,4 +2,5 @@
 *.swp
 # ignore mru type of file
 vim/.vim/.netrwhist
+i3/.config/jgmenu/resolutions.csv
 
