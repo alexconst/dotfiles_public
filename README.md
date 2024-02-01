@@ -4,7 +4,7 @@ How to pull and deploy your dotfiles in a brand new machine AFAP.
 
 # Deploying dotfiles
 
-## step 1: download
+## step 1: download dotfiles
 
 In this scenario the user doesn't have any dotfiles in his system and will pull them from a git server.
 ```bash
@@ -28,7 +28,7 @@ cd
 $tool get-repo dotfiles_public
 ```
 
-## step 2: setup
+## step 2: install dotfiles
 
 Any existing files will be moved to a backup folder.
 
@@ -105,12 +105,16 @@ $tool    adopt-dotfiles dotfiles_public wmde ~/.config/i3/config
 ```
 
 ## Retreat dotfiles
-This will unstow (ie remove the links from your $HOME into your dotfiles_public) of all dotfiles in the given $packagename.
+This will unstow (ie remove the symlinks in your $HOME linking to your dotfiles folder) of all dotfiles in the given $packagename.
 This is useful for swapping dotfiles settings, eg: swap between vim dotfile packages
 ```bash
 $tool -n retreat-dotfiles $HOME/dotfiles_public $packagename
 $tool    retreat-dotfiles $HOME/dotfiles_public $packagename
 ```
+
+
+## Collisions
+This tool can handle dotfile collisions. See help menu.
 
 
 # Other tasks

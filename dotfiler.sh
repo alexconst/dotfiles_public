@@ -57,7 +57,7 @@ remove_dotfiles() {
   for item in "${dotfiles[@]}"; do
     cmd="mv -v -n ~/$item ${undo_folder}/"
     if [ "$dry_run" = "true" ]; then
-      echo "$cmd"
+      echo "  $cmd"
     else
       mkdir -p $undo_folder
       eval $cmd
@@ -70,6 +70,11 @@ deploy_dotfiles() {
   local deploy_mode="$1"
   local folder_name="$2"
   local packages="${@:3}"
+
+  if [[ -z "$folder_name" ]] || [[ ! -d "$folder_name" ]] || [[ -z "${packages}" ]]; then
+    echo "ERROR: missing parameters to this operation"
+    return
+  fi
 
   run_stow "$folder_name" "$packages"
 
@@ -212,9 +217,10 @@ usage() {
   tool=$(basename $0)
   echo -e "
 About:
-  Helper script to install and manage dotfiles on a machine. It uses GNU stow to do so.
-  It can either deploy dotfiles from a restored backup.
-  Or deploy dotfiles in a blank system by pulling them from a git repo over SSH. It also helps with handling the remote git server. In which it expects the variables \$git_server and \$git_port to be set.
+  Helper script to install and manage dotfiles on a machine. Under the hood it uses GNU stow to do so.
+  It can either deploy dotfiles from a restored backup. Or deploy dotfiles in a blank system by pulling them from a git repo over SSH.
+  It also helps with handling the remote git server. In which it expects the variables \$git_server and optionally \$git_port to be set.
+  It can handle folder collisions across packages (ie same folder exists in different packages being deployed). It will abort on file collisions.
 
 Usage: $0 [options]\n
   Options
