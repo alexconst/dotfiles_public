@@ -6,6 +6,9 @@
 # The idea is to support multiple terminals by passing the terminal as argument
 # Works with xterm and urxvt. Untested with kitty or others
 
+# Alternatives (untested):
+# yeahconsole
+
 # BUGS:
 # - the first time the terminal is launched it shows up as if it's another window (ie it will stack with other ones); calling hiding and showing won't fix it
 # NOT A BUG, BUT NOT IDEAL:
