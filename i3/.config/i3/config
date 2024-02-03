@@ -53,8 +53,8 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-#bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+t exec i3-sensible-terminal
+#bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
+bindsym $mod+t exec --no-startup-id $terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -189,10 +189,10 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # i3 menu
-set $mode_i3 SESSION: reload i3 [c]onfig, re[s]tart i3, [l]ock i3, switch [u]ser
+set $mode_i3 SESSION: reload i3 [c]onfig, [r]estart i3, [l]ock i3, switch [u]ser
 mode "$mode_i3" {
     bindsym c exec i3-msg reload; mode "default"
-    bindsym s exec i3-msg restart; mode "default"
+    bindsym r exec i3-msg restart; mode "default"
     bindsym l exec --no-startup-id i3lock; mode "default"
     bindsym u exec --no-startup-id dm-tool switch-to-greeter; mode "default"
     bindsym Escape mode "default"

@@ -13,7 +13,7 @@ function __set_bash_history {
     export HISTFILESIZE=10000           # write more history
     export HISTSIZE=10000               # remember more history
     export HISTCONTROL=ignoreboth       # ignore commands beginning with a space and duplicates
-    export HISTIGNORE='ls:bg:fg'        # ignore lame commands
+    export HISTIGNORE='ls:bg:fg:exit:clear'   # ignore lame commands
     export PROMPT_COMMAND='history -a'  # store history immediately
 }
 

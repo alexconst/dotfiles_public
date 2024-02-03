@@ -22,7 +22,6 @@
 #     i3-msg -t get_tree | jq '.' | less
 
 
-DROPDOWN_NAME="drop-down-terminal-quaketerm42" # instance name of the X resource/window
 
 _show_term() {
   # do not cover polybar (but it is always 32px?)
@@ -58,7 +57,19 @@ _launch_term() {
 }
 
 
-if [ "$1" = "xfce4-terminal" ]; then
+
+
+terminal="$1"
+if [ -z "$terminal" ]; then
+  echo "ERROR: no terminal specified. Falling back to xterm."
+  terminal="xterm"
+elif ! which "$terminal" > /dev/null; then
+  echo "ERROR: specified terminal does not exist: $terminal. Falling back to xterm."
+  terminal="xterm"
+fi
+DROPDOWN_NAME="$terminal-drop-down-ninja-terminal" # instance name of the X resource/window
+
+if [ "$terminal" = "xfce4-terminal" ]; then
   FILTER="title" # works with xfce4-terminal
 else
   FILTER="instance" # does not work for xfce4-terminal
@@ -76,13 +87,13 @@ else
 fi
 
 if [ $EXISTS = 1 ]; then
-  #echo "DEBUG: x terminal already exists... going to either hide or show it"
+  #echo "DEBUG: x terminal already exists... going to either hide or show it" >> /tmp/debug.txt
   if ! _show_term; then
     #echo "DEBUG: going to hide it"
     _hide_term
   fi
 else
-  #echo "DEBUG: no x terminal exists... going to launch one"
-  _launch_term "$@"
+  #echo "DEBUG: no x terminal exists... going to launch one" >> /tmp/debug.txt
+  _launch_term "$terminal"
 fi
 
