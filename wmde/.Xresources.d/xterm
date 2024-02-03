@@ -1,0 +1,56 @@
+! vim:ft=xdefaults
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! xterm and uxterm
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+! Sensible defaults
+xterm.VT100.locale:                false
+xterm.VT100.utf8:                  true
+xterm.VT100.bellIsUrgent:          true
+xterm.VT100.metaSendsEscape:       true
+xterm.VT100.cursorBlink:           false
+xterm.VT100.highlightSelection:    true
+xterm.VT100.trimSelection:         true
+
+! Tweaks
+!! report TERM variable with 256 colors support
+xterm*termName:                    xterm-256color
+!! sixel support
+xterm*decTerminalID:               vt382
+xterm*numColorRegisters:           256
+
+! Scrolling
+xterm.VT100.scrollKey:             true
+xterm.VT100.scrollBar:             true
+xterm.VT100.rightScrollBar:        true
+xterm.VT100.scrollWithBuffer:      true
+xterm.VT100.scrollTtyKeypress:     true
+xterm.VT100.scrollTtyOutput:       false
+xterm.VT100.saveLines:             2000
+
+! Styling
+xterm.VT100.faceName:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
+xterm.VT100.boldFont:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
+xterm.VT100.boldMode:              false
+xterm.VT100.allowBoldFonts:        true
+xterm.VT100.internalBorder:        8
+xterm.borderWidth:                 0
+! Menu Names
+xterm*.mainMenu.label:             File
+xterm*.vtMenu.label:               Options
+xterm*.fontMenu.label:             View
+
+! Shortcuts
+!   show past screen (closed or hidden) with ctrl+shift+h
+!   scroll half page up/down with ctrl+u/ctrl+d
+!   scroll one line up/down with alt+↑/alt+↓
+!   copy/paste to/from clipboards with ctrl+shift+c/ctrl+shift+v
+xterm.VT100.translations: #override \n\
+    Ctrl Shift <Key>H: set-altscreen(toggle) \n\
+    Ctrl <Key>U: scroll-back(1, halfpage) \n\
+    Ctrl <Key>D: scroll-forw(1, halfpage) \n\
+    Alt <KeyPress> Up: scroll-back(1, line) \n\
+    Alt <KeyPress> Down: scroll-forw(1, line) \n\
+    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+

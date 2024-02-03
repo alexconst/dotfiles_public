@@ -1,0 +1,57 @@
+! vim:ft=xdefaults
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! colours
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+! Terminal Colors
+*background:  #000000
+*foreground:  #D2D2D2
+*borderColor: #343434
+! Color Scheme Solarized dark
+! 0-7:  Black, Red, Green, Yellow, Blue, Purple, Cyan, White
+! 8-15: Bright Black, Bright Red, ...
+*color0:  #222222
+*color8:  #454545
+*color1:  #9E5641
+*color9:  #CC896D
+*color2:  #6C7E55
+*color10: #C4DF90
+*color3:  #CAAF2B
+*color11: #FFE080
+*color4:  #7FB8D8
+*color12: #B8DDEA
+*color5:  #956D9D
+*color13: #C18FCB
+*color6:  #4c8ea1
+*color14: #6bc1d0
+*color7:  #808080
+*color15: #cdcdcd
+
+!! Terminal Colors
+!*VT100.background:            #212121
+!*VT100.foreground:            #80FF80
+!*cursorColor:                 #ffffff
+!! Color Scheme
+!! 0-7:  Black, Red, Green, Yellow, Blue, Purple, Cyan, White
+!! 8-15: Bright Black, Bright Red, ...
+!*color0:               #212121
+!*color8:               #7f7f7f
+!*color1:               #A00000
+!*color9:               #FF0000
+!*color2:               #00A000
+!*color10:              #00FF00
+!*color3:               #A0A000
+!*color11:              #FFFF00
+!*color4:               #0000A0
+!*color12:              #5C5CFF
+!*color5:               #A000A0
+!*color13:              #FF00FF
+!*color6:               #00A0A0
+!*color14:              #00FFFF
+!*color7:               #C0C0C0
+!*color15:              #ffffff
+
+
+
+
+

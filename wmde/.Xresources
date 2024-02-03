@@ -1,120 +1,12 @@
 ! NOTE:
-!   - to reload resources run: xrdb ~/.Xresources
-!   - for more config options check https://manpages.debian.org/bullseye/rxvt-unicode/x-terminal-emulator.1.en.html
-!   - this configuration uses the `XTerm` config (X11-based terminal emulator) instead of the `xterm` (legacy termcap-based application)
-!   - to access xterm menus press ctrl+mouse (left, middle, right)
+!   - to use these settings either run `xrdb -load ~/.Xresources` to set them as is, or run `xrdb -merge ~/.Xresources` to merge and update existing
+!   - to check for syntax errors: `xrdb -n ~/.Xresources 2>&1 >/dev/null`
+!   - to access xterm menus: hold ctrl and click (left, middle, right) mouse button
 
+#include ".Xresources.d/colors"
+#include ".Xresources.d/fonts"
+#include ".Xresources.d/xterm"
+#include ".Xresources.d/rxvt"
+! #include ".Xresources.d/xscreensaver"
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! fonts
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-Xft.dpi       : 96
-Xft.autohint  : 0
-Xft.lcdfilter : lcddefault
-Xft.hintstyle : hintslight
-Xft.hinting   : 1
-Xft.antialias : 1
-Xft.rgba      : rgb
-
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! xterm
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-! Sensible defaults
-XTerm.vt100.locale:                false
-XTerm.vt100.utf8:                  true
-XTerm.vt100.bellIsUrgent:          true
-XTerm.vt100.metaSendsEscape:       true
-XTerm.vt100.cursorBlink:           false
-XTerm.vt100.highlightSelection:    true
-XTerm.vt100.trimSelection:         true
-
-! Tweaks
-!! report TERM variable with 256 colors support
-XTerm*termName:                    xterm-256color
-!! sixel support
-XTerm*decTerminalID:               vt382
-XTerm*numColorRegisters:           256
-
-! Scrolling
-XTerm.vt100.scrollKey:             true
-XTerm.vt100.scrollBar:             true
-XTerm.vt100.rightScrollBar:        true
-XTerm.vt100.scrollWithBuffer:      true
-XTerm.vt100.scrollTtyKeypress:     true
-XTerm.vt100.scrollTtyOutput:       false
-XTerm.vt100.saveLines:             10000
-
-! Styling
-XTerm.vt100.faceName:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
-XTerm.vt100.boldFont:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
-XTerm.vt100.boldMode:              false
-XTerm.vt100.allowBoldFonts:        true
-XTerm.vt100.internalBorder:        8
-XTerm.borderWidth:                 0
-! Menu Names
-XTerm*.mainMenu.label:             File
-XTerm*.vtMenu.label:               Options
-XTerm*.fontMenu.label:             View
-
-! Shortcuts
-!   show past screen (closed or hidden) with ctrl+shift+h
-!   scroll up/down with ctrl+d/ctrl+u
-!   copy/paste to/from clipboards with ctrl+shift+c/ctrl+shift+v
-XTerm.vt100.translations: #override \n\
-    Ctrl Shift <Key>H: set-altscreen(toggle) \n\
-    Ctrl <Key>U: scroll-back(1, halfpage) \n\
-    Ctrl <Key>D: scroll-forw(1, halfpage) \n\
-    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
-    Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
-
-! Terminal Colors
-XTerm*background:  #000000
-XTerm*foreground:  #D2D2D2
-XTerm*borderColor: #343434
-! Color Scheme Solarized dark
-! 0-7:  Black, Red, Green, Yellow, Blue, Purple, Cyan, White
-! 8-15: Bright Black, Bright Red, ...
-XTerm*color0:  #222222
-XTerm*color8:  #454545
-XTerm*color1:  #9E5641
-XTerm*color9:  #CC896D
-XTerm*color2:  #6C7E55
-XTerm*color10: #C4DF90
-XTerm*color3:  #CAAF2B
-XTerm*color11: #FFE080
-XTerm*color4:  #7FB8D8
-XTerm*color12: #B8DDEA
-XTerm*color5:  #956D9D
-XTerm*color13: #C18FCB
-XTerm*color6:  #4c8ea1
-XTerm*color14: #6bc1d0
-XTerm*color7:  #808080
-XTerm*color15: #cdcdcd
-
-!! Terminal Colors
-!XTerm*vt100.background:            #212121
-!XTerm*vt100.foreground:            #80FF80
-!XTerm*cursorColor:                 #ffffff
-!! Color Scheme
-!! 0-7:  Black, Red, Green, Yellow, Blue, Purple, Cyan, White
-!! 8-15: Bright Black, Bright Red, ...
-!XTerm*color0:               #212121
-!XTerm*color8:               #7f7f7f
-!XTerm*color1:               #A00000
-!XTerm*color9:               #FF0000
-!XTerm*color2:               #00A000
-!XTerm*color10:              #00FF00
-!XTerm*color3:               #A0A000
-!XTerm*color11:              #FFFF00
-!XTerm*color4:               #0000A0
-!XTerm*color12:              #5C5CFF
-!XTerm*color5:               #A000A0
-!XTerm*color13:              #FF00FF
-!XTerm*color6:               #00A0A0
-!XTerm*color14:              #00FFFF
-!XTerm*color7:               #C0C0C0
-!XTerm*color15:              #ffffff
 

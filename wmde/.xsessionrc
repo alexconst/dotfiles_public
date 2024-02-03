@@ -1,0 +1,6 @@
+# interpreted by a POSIX shell (/bin/sh, typically provided by dash)
+# changes can be confirmed with `xrdb -query` and you can also check ~/.xsession-errors
+
+if [ -r ~/.Xresources ]; then
+    xrdb -merge -I$HOME ~/.Xresources
+fi
