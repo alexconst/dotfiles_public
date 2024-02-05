@@ -35,7 +35,7 @@ urxvt.*.internalBorder:         0
 ! Shortcuts
 !   copy/paste to/from clipboards with ctrl+shift+c/ctrl+shift+v
 !   scroll half page up/down with ctrl+u/ctrl+d
-!   NOTE: ctrl+d/ctrl+u not working yet, so using ctrl+shift+d/u
+!   NOTE: the keysym needed explicit lower case `u` and `d`, independently of shift not being there
 !   scroll one line up/down with alt+↑/alt+↓
 !   increase font size Ctrl+'+' for all the URxvt tabs and windows (Plus keysum does not work).
 !   decrease font size Ctrl+'-' for all the URxvt tabs and windows (Minus keysum does not work).
@@ -43,8 +43,8 @@ urxvt.keysym.Shift-Control-C:   eval:selection_to_clipboard
 urxvt.keysym.Shift-Control-V:   eval:paste_clipboard
 urxvt.keysym.M-Up:              eval:scroll_up 1
 urxvt.keysym.M-Down:            eval:scroll_down 1
-urxvt.keysym.Shift-Control-U:         eval:scroll_up 20
-urxvt.keysym.Shift-Control-D:         eval:scroll_down 20
+urxvt.keysym.Control-u:         eval:scroll_up 20
+urxvt.keysym.Control-d:         eval:scroll_down 20
 urxvt.keysym.Control-0x2b:      perl:font-size:increase
 urxvt.keysym.Control-0x2d:      perl:font-size:decrease
 urxvt.keysym.Control-Home:      eval:scroll_to_top
