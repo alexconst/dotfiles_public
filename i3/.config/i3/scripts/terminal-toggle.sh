@@ -8,6 +8,7 @@
 
 # Alternatives (untested):
 # yeahconsole
+# urxvt kuake extension
 
 # BUGS:
 # - the first time the terminal is launched it shows up as if it's another window (ie it will stack with other ones); calling hiding and showing won't fix it
