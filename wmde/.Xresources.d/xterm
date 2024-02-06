@@ -47,10 +47,12 @@ xterm*.fontMenu.label:             View
 !   copy/paste to/from clipboards with ctrl+shift+c/ctrl+shift+v
 xterm.VT100.translations: #override \n\
     Ctrl Shift <Key>H: set-altscreen(toggle) \n\
-    Ctrl <Key>U: scroll-back(1, halfpage) \n\
-    Ctrl <Key>D: scroll-forw(1, halfpage) \n\
     Alt <KeyPress> Up: scroll-back(1, line) \n\
     Alt <KeyPress> Down: scroll-forw(1, line) \n\
     Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
     Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+
+! NOTE: ended up commenting these because they break usability on programs (eg: less, vim), but maybe could change them to ctrl+shift+U/D
+!    Ctrl <Key>U: scroll-back(1, halfpage) \n\
+!    Ctrl <Key>D: scroll-forw(1, halfpage) \n\
 

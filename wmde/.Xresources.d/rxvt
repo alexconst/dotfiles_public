@@ -45,12 +45,12 @@ urxvt.keysym.Shift-Control-C:   eval:selection_to_clipboard
 urxvt.keysym.Shift-Control-V:   eval:paste_clipboard
 urxvt.keysym.M-Up:              eval:scroll_up 1
 urxvt.keysym.M-Down:            eval:scroll_down 1
-urxvt.keysym.Control-u:         eval:scroll_up 20
-urxvt.keysym.Control-d:         eval:scroll_down 20
 urxvt.keysym.Control-0x2b:      perl:font-size:increase
 urxvt.keysym.Control-0x2d:      perl:font-size:decrease
 urxvt.keysym.Control-Home:      eval:scroll_to_top
 urxvt.keysym.Control-End:       eval:scroll_to_bottom
 
-
+! NOTE: ended up commenting these because they break usability on programs (eg: less, vim), but maybe could change them to ctrl+shift+U/D
+!urxvt.keysym.Control-u:         eval:scroll_up 20
+!urxvt.keysym.Control-d:         eval:scroll_down 20
 
