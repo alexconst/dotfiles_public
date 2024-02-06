@@ -14,6 +14,7 @@ set $alt Mod1
 set $ctl Control
 set $terminal xterm
 set $terminal_powerful xfce4-terminal
+set $screenlock i3lock -i ~/wallpapers/screenlock.png
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -32,7 +33,11 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- "$screenlock" --nofork
+
+# if idle for $time minutes then: power off the screen and run the script to lock the screen while passing it the number of seconds of notice before locking
+# (note: the notify value is irrelevant, but is needed to trigger the notifier script)
+exec_always xautolock -time 1 -locker "xset dpms force off" -notify 5 -notifier "~/.config/i3/scripts/screen-lock.sh 10 $screenlock"
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -44,6 +49,8 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -193,7 +200,7 @@ set $mode_i3 SESSION: reload i3 [c]onfig, [r]estart i3, [l]ock i3, switch [u]ser
 mode "$mode_i3" {
     bindsym c exec i3-msg reload; mode "default"
     bindsym r exec i3-msg restart; mode "default"
-    bindsym l exec --no-startup-id i3lock; mode "default"
+    bindsym l exec --no-startup-id "$screenlock"; mode "default"
     bindsym u exec --no-startup-id dm-tool switch-to-greeter; mode "default"
     bindsym Escape mode "default"
     bindsym Return mode "default"
@@ -213,7 +220,7 @@ mode "$mode_system" {
 bindsym $mod+Shift+s mode "$mode_system"
 
 # still nice to have a one keypress lock
-bindsym $mod+x exec --no-startup-id i3lock
+bindsym $mod+x exec --no-startup-id "$screenlock"
 
 # Redshsift modes
 set $mode_redshift Set colour temperature: (a)uto, (r)eset, (2)500K, (3)000K, (4)000K, (5)000K
