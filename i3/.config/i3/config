@@ -37,7 +37,8 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- "$screenlock" --nofork
 
 # if idle for $time minutes then: power off the screen and run the script to lock the screen while passing it the number of seconds of notice before locking
 # (note: the notify value is irrelevant, but is needed to trigger the notifier script)
-exec_always xautolock -time 1 -locker "xset dpms force off" -notify 5 -notifier "~/.config/i3/scripts/screen-lock.sh 10 $screenlock"
+# NOTE: to disable the screen lock just comment this line
+#exec_always --no-startup-id xautolock -time 1 -locker "xset dpms force off" -notify 5 -notifier "~/.config/i3/scripts/screen-lock.sh 10 $screenlock"
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.

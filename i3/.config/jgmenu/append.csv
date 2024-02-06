@@ -1,5 +1,5 @@
 ^sep()
-Lock,i3lock -c 000000,system-lock-screen
+Lock,i3lock -i ~/wallpapers/screenlock.png,system-lock-screen
 i3,^checkout(i3),user-desktop
 Session,^checkout(session),system-shutdown
 ^tag(i3)
