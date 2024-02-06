@@ -4,34 +4,34 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ! Sensible defaults
-urxvt.*.visualBell:             false
-urxvt.*.cursorBlink:            false
+URxvt.*.visualBell:             false
+URxvt.*.cursorBlink:            false
 !! disable Ctrl+Shift-i binding that popups a yellow dmenu box asking for a unicode codepoint 
-urxvt.*.iso14755:               false
-urxvt.*.iso14755_52:            false
+URxvt.*.iso14755:               false
+URxvt.*.iso14755_52:            false
 
 ! Tweaks
 !! report TERM variable with 256 colors support
-urxvt*termName:                 rxvt-unicode-256color
+URxvt.*.termName:               rxvt-unicode-256color
 !! enable perl extensions
-urxvt.*.perl-ext:               default,font-size
+URxvt.*.perl-ext:               default,font-size
 
 
 ! Scrolling
-urxvt.*.scrollstyle:            plain
-urxvt.*.scrollBar:              true
-urxvt.*.scrollBar_right:        true
-urxvt.*.mouseWheelScrollPage:   false
-urxvt.*.scrollTtyKeypress:      true
-urxvt.*.scrollTtyOutput:        false
-urxvt.*.saveLines:              2000
+URxvt.*.scrollstyle:            plain
+URxvt.*.scrollBar:              true
+URxvt.*.scrollBar_right:        true
+URxvt.*.mouseWheelScrollPage:   false
+URxvt.*.scrollTtyKeypress:      true
+URxvt.*.scrollTtyOutput:        false
+URxvt.*.saveLines:              2000
 
 
 ! Styling
-urxvt.*.font:                   xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
-urxvt.*.boldFont:               xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
-urxvt.*.internalBorder:         0
-urxvt.*.underlineColor:         yellow
+URxvt.*.font:                   xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
+URxvt.*.boldFont:               xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
+URxvt.*.internalBorder:         0
+URxvt.*.underlineColor:         yellow
 
 
 ! Shortcuts
@@ -41,16 +41,16 @@ urxvt.*.underlineColor:         yellow
 !   scroll one line up/down with alt+↑/alt+↓
 !   increase font size Ctrl+'+' for all the URxvt tabs and windows (Plus keysum does not work).
 !   decrease font size Ctrl+'-' for all the URxvt tabs and windows (Minus keysum does not work).
-urxvt.keysym.Shift-Control-C:   eval:selection_to_clipboard
-urxvt.keysym.Shift-Control-V:   eval:paste_clipboard
-urxvt.keysym.M-Up:              eval:scroll_up 1
-urxvt.keysym.M-Down:            eval:scroll_down 1
-urxvt.keysym.Control-0x2b:      perl:font-size:increase
-urxvt.keysym.Control-0x2d:      perl:font-size:decrease
-urxvt.keysym.Control-Home:      eval:scroll_to_top
-urxvt.keysym.Control-End:       eval:scroll_to_bottom
+URxvt.keysym.Shift-Control-C:   eval:selection_to_clipboard
+URxvt.keysym.Shift-Control-V:   eval:paste_clipboard
+URxvt.keysym.M-Up:              eval:scroll_up 1
+URxvt.keysym.M-Down:            eval:scroll_down 1
+URxvt.keysym.Control-0x2b:      perl:font-size:increase
+URxvt.keysym.Control-0x2d:      perl:font-size:decrease
+URxvt.keysym.Control-Home:      eval:scroll_to_top
+URxvt.keysym.Control-End:       eval:scroll_to_bottom
 
 ! NOTE: ended up commenting these because they break usability on programs (eg: less, vim), but maybe could change them to ctrl+shift+U/D
-!urxvt.keysym.Control-u:         eval:scroll_up 20
-!urxvt.keysym.Control-d:         eval:scroll_down 20
+!URxvt.keysym.Control-u:         eval:scroll_up 20
+!URxvt.keysym.Control-d:         eval:scroll_down 20
 

@@ -4,7 +4,7 @@
 #   https://old.reddit.com/r/i3wm/comments/ry4n2v/any_recommended_drop_down_terminal_well_suited_to/
 #   https://old.reddit.com/r/archlinux/comments/7czlx7/shell_script_need_help_to_create_dropdown/
 # The idea is to support multiple terminals by passing the terminal as argument
-# Works with xterm and urxvt. Untested with kitty or others
+# Works with uxterm and urxvt. Untested with kitty or others
 
 # Alternatives (untested):
 # yeahconsole
@@ -43,16 +43,15 @@ _launch_term() {
     kitty --single-instance --class $DROPDOWN_NAME 1>/dev/null 2>/dev/null &
   elif [ "$1" = "urxvt" ]; then
     urxvt -name $DROPDOWN_NAME 1>/dev/null 2>/dev/null &
-  #elif [ "$1" = "xterm" ]; then
   elif [ "$1" = "xfce4-terminal" ]; then
     xfce4-terminal --initial-title $DROPDOWN_NAME --title $DROPDOWN_NAME 1>/dev/null 2>/dev/null &
   else
-    # launch normal xterm:
-    #xterm -name $DROPDOWN_NAME 1>/dev/null 2>/dev/null &
-    # launch utf support xterm (normally we would pass -class UXTerm but that naming ends up dodging our .Xresources settings) with hardcoded window title:
-    #xterm -u8 -name $DROPDOWN_NAME -xrm 'XTerm.vt100.allowTitleOps: false' -title $DROPDOWN_NAME 1>/dev/null 2>/dev/null &
-    # launch utf support xterm (normally we would pass -class UXTerm but that naming ends up dodging our .Xresources settings):
-    xterm -u8 -name $DROPDOWN_NAME 1>/dev/null 2>/dev/null &
+    # launch normal uxterm:
+    #uxterm -name $DROPDOWN_NAME 1>/dev/null 2>/dev/null &
+    # launch uxterm (normally we would pass -class UXTerm but that naming ends up dodging our .Xresources settings) with hardcoded window title:
+    #uxterm -name $DROPDOWN_NAME -xrm 'XTerm.vt100.allowTitleOps: false' -title $DROPDOWN_NAME 1>/dev/null 2>/dev/null &
+    # launch uxterm (normally we would pass -class UXTerm but that naming ends up dodging our .Xresources settings):
+    uxterm -name $DROPDOWN_NAME 1>/dev/null 2>/dev/null &
   fi
   # [ -n "$2" ] && _hide_term || _show_term
 }
@@ -62,13 +61,18 @@ _launch_term() {
 
 terminal="$1"
 if [ -z "$terminal" ]; then
-  echo "ERROR: no terminal specified. Falling back to xterm."
-  terminal="xterm"
+  echo "ERROR: no terminal specified. Falling back to uxterm."
+  terminal="uxterm"
 elif ! which "$terminal" > /dev/null; then
-  echo "ERROR: specified terminal does not exist: $terminal. Falling back to xterm."
-  terminal="xterm"
+  echo "ERROR: specified terminal does not exist: $terminal. Falling back to uxterm."
+  terminal="uxterm"
 fi
-DROPDOWN_NAME="$terminal-drop-down-ninja-terminal" # instance name of the X resource/window
+if [ "$terminal" = "uxterm" ]; then
+    terminal_name="xterm"
+else
+    terminal_name="$terminal"
+fi
+DROPDOWN_NAME="${terminal_name}-drop-down-ninja-terminal" # instance name of the X resource/window
 
 if [ "$terminal" = "xfce4-terminal" ]; then
   FILTER="title" # works with xfce4-terminal
@@ -77,7 +81,7 @@ else
 fi
 
 if xlsclients -l | grep Instance | awk '{print $2}' | grep $DROPDOWN_NAME 1>/dev/null 2>/dev/null; then
-  #echo "DEBUG: exists xterm"
+  #echo "DEBUG: exists uxterm"
   EXISTS=1
 elif xdotool search --name $DROPDOWN_NAME; then # this case is for xfce4-terminal
   #echo "DEBUG: exists xfce4"

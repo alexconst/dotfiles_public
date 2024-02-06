@@ -4,48 +4,48 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ! Sensible defaults
-xterm.VT100.locale:                false
-xterm.VT100.utf8:                  true
-xterm.VT100.bellIsUrgent:          true
-xterm.VT100.metaSendsEscape:       true
-xterm.VT100.cursorBlink:           false
-xterm.VT100.highlightSelection:    true
-xterm.VT100.trimSelection:         true
+UXTerm.*.locale:                false
+UXTerm.*.utf8:                  true
+UXTerm.*.bellIsUrgent:          true
+UXTerm.*.metaSendsEscape:       true
+UXTerm.*.cursorBlink:           false
+UXTerm.*.highlightSelection:    true
+UXTerm.*.trimSelection:         true
 
 ! Tweaks
 !! report TERM variable with 256 colors support
-xterm*termName:                    xterm-256color
+UXTerm.*.termName:              xterm-256color
 !! sixel support
-xterm*decTerminalID:               vt382
-xterm*numColorRegisters:           256
+UXTerm.*.decTerminalID:         vt382
+UXTerm.*.numColorRegisters:     256
 
 ! Scrolling
-xterm.VT100.scrollKey:             true
-xterm.VT100.scrollBar:             true
-xterm.VT100.rightScrollBar:        true
-xterm.VT100.scrollWithBuffer:      true
-xterm.VT100.scrollTtyKeypress:     true
-xterm.VT100.scrollTtyOutput:       false
-xterm.VT100.saveLines:             2000
+UXTerm.*.scrollKey:             true
+UXTerm.*.scrollBar:             true
+UXTerm.*.rightScrollBar:        true
+UXTerm.*.scrollWithBuffer:      true
+UXTerm.*.scrollTtyKeypress:     true
+UXTerm.*.scrollTtyOutput:       false
+UXTerm.*.saveLines:             2000
 
 ! Styling
-xterm.VT100.faceName:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
-xterm.VT100.boldFont:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
-xterm.VT100.boldMode:              false
-xterm.VT100.allowBoldFonts:        true
-xterm.VT100.internalBorder:        8
-xterm.borderWidth:                 0
+UXTerm.*.faceName:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
+UXTerm.*.boldFont:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
+UXTerm.*.boldMode:              false
+UXTerm.*.allowBoldFonts:        true
+UXTerm.*.internalBorder:        8
+UXTerm.*.borderWidth:           0
 ! Menu Names
-xterm*.mainMenu.label:             File
-xterm*.vtMenu.label:               Options
-xterm*.fontMenu.label:             View
+UXTerm.*.mainMenu.label:        File
+UXTerm.*.vtMenu.label:          Options
+UXTerm.*.fontMenu.label:        View
 
 ! Shortcuts
 !   show past screen (closed or hidden) with ctrl+shift+h
 !   scroll half page up/down with ctrl+u/ctrl+d
 !   scroll one line up/down with alt+↑/alt+↓
 !   copy/paste to/from clipboards with ctrl+shift+c/ctrl+shift+v
-xterm.VT100.translations: #override \n\
+UXTerm.*.translations: #override \n\
     Ctrl Shift <Key>H: set-altscreen(toggle) \n\
     Alt <KeyPress> Up: scroll-back(1, line) \n\
     Alt <KeyPress> Down: scroll-forw(1, line) \n\
