@@ -248,7 +248,7 @@ try
     let g:solarized_termtrans=0     " if set to 1 it will use the terminal's background; if set to 0 it will use the theme's one
     "let g:solarized_contrast='high' " shifts some values up or down in order to expand or compress the tonal range displayed.
     "let g:solarized_diffmode='high'
-    colorscheme solarized           " set theme
+    colorscheme solarizedbright     " set theme
 catch /^Vim\%((\a\+)\)\=:E185/
     colorscheme desert
 endtry

@@ -5,13 +5,14 @@
 [submodule "vim/.vim/bundle/tabline.vim"]
 	path = vim/.vim/bundle/tabline.vim
 	url = https://github.com/mkitt/tabline.vim.git
-[submodule "vim/.vim/bundle/vim-colors-solarized"]
-	path = vim/.vim/bundle/vim-colors-solarized
-	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule "vim/.vim/bundle/vim-plugin-AnsiEsc"]
 	path = vim/.vim/bundle/vim-plugin-AnsiEsc
 	url = https://github.com/powerman/vim-plugin-AnsiEsc.git
 
+[submodule "vim/.vim/bundle/vim-colors-solarized"]
+	path = vim/.vim/bundle/vim-colors-solarized
+	url = ssh://mothership:23231/vim-colors-solarized
+	branch = develop
 [submodule "vim/.vim/bundle/vim-markdown"]
 	path = vim/.vim/bundle/vim-markdown
 	url = ssh://mothership:23231/vim-markdown
