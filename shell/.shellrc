@@ -27,6 +27,10 @@ function __set_zsh_history {
     setopt histignorespace              # ignore commands that have a leading space
 }
 
+function __set_shell_common {
+    stty -ixon                          # unbind software flow control shortcuts (ctrl+s and ctrl+q) in terminal, so they can be used for other purposes
+}
+
 function __set_bash_config {
     bind 'TAB':menu-complete                    # use Tab to cycle through multiple matches for completion
     bind '"\e[Z": menu-complete-backward'       # use shift-Tab to cycle backwards
@@ -41,6 +45,9 @@ _force_rehash() {
 }
 
 function __set_zsh_config {
+    # key input mode
+    bindkey -v # vi mode
+    #bindkey -e # emacs mode
     # misc
     TIMEFMT=$'%J\n%U user \n%S system \n%P cpu %*E total'   # zsh time builtin results format
     setopt interactivecomments                  # ignore lines starting with # when using an interactive shell
@@ -56,13 +63,21 @@ function __set_zsh_config {
     zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)' # this disables completion for . when using globdots, but keeps ..
     zstyle ':completion:*' menu select
     fpath=(/usr/local/share/zsh-completions $fpath) # set zsh function search path
-    local zshf="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    if [[ -e "$zshf" ]]; then
-        source "$zshf"
-    fi
+
     bindkey -M menuselect '^[[Z' reverse-menu-complete      # cycle completions backwards
     # bindings / shortcuts                                  # TODO: move this and create proper full set of vi bindings
     bindkey '^[[Z' backward-kill-word                       # delete previous word using shift+tab (very convenient when dealing with completions)
+    # these were required after starting to use uxterm and urxvt
+    bindkey "^A" beginning-of-line
+    bindkey "^E" end-of-line
+    bindkey "^[b" backward-word
+    bindkey "^[f" forward-word
+    bindkey "^K" kill-line
+    bindkey "^P" history-search-backward
+    bindkey "^N" history-search-forward
+    bindkey "^R" history-incremental-search-backward
+    bindkey "^S" history-incremental-search-forward
+
     # TO DELETE:
 #    zstyle ':completion:*' auto-description 'specify: %d'
 #    zstyle ':completion:*' completer _expand _complete _correct _approximate
@@ -83,13 +98,19 @@ function __set_zsh_config {
 }
 
 function __set_zsh_colors {
+    local zshf="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    if [[ -e "$zshf" ]]; then
+        source "$zshf"
+    fi
     local zshf="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting_colorscheme-dracula.zsh"
     if [[ -e "$zshf" ]]; then
         source "$zshf"
     fi
+    export ZSH_HIGHLIGHT_HIGHLIGHTERS=( main ) # disable cursor annoying highlighter
 }
 
 function _set_shell {
+    __set_shell_common
     if [ -n "$BASH_VERSION" ]; then
         __set_bash_history
         __set_bash_config
