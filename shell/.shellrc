@@ -55,8 +55,8 @@ function __set_zsh_config {
     #zstyle ':completion:*' special-dirs true    # add completion for . and .. dirs when using globdots
     zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)' # this disables completion for . when using globdots, but keeps ..
     zstyle ':completion:*' menu select
-    fpath=(/usr/local/share/zsh-completions $fpath)
-    zshf="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    fpath=(/usr/local/share/zsh-completions $fpath) # set zsh function search path
+    local zshf="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
     if [[ -e "$zshf" ]]; then
         source "$zshf"
     fi
@@ -82,6 +82,13 @@ function __set_zsh_config {
 #    zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 }
 
+function __set_zsh_colors {
+    local zshf="/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting_colorscheme-dracula.zsh"
+    if [[ -e "$zshf" ]]; then
+        source "$zshf"
+    fi
+}
+
 function _set_shell {
     if [ -n "$BASH_VERSION" ]; then
         __set_bash_history
@@ -89,6 +96,7 @@ function _set_shell {
     elif [ -n "$ZSH_VERSION" ]; then
         __set_zsh_history
         __set_zsh_config
+        __set_zsh_colors
     fi
 }
 
