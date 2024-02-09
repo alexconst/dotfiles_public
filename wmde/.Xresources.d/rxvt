@@ -15,6 +15,7 @@ URxvt.*.iso14755_52:            false
 URxvt.*.termName:               rxvt-unicode-256color
 !! enable perl extensions
 URxvt.*.perl-ext:               default,font-size
+URxvt.url-launcher:             /usr/bin/xdg-open
 
 
 ! Scrolling
@@ -30,8 +31,14 @@ URxvt.*.saveLines:              2000
 ! Styling
 URxvt.*.font:                   xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
 URxvt.*.boldFont:               xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
-URxvt.*.internalBorder:         0
-URxvt.*.underlineColor:         yellow
+!! how many pixels to use as margin before characters can be drawn (you can see the difference when viewing a manpage)
+URxvt.*.internalBorder:         5
+!! the following settings can be seen in effect when opening a manpage unless overriden by LESS_TERMCAP_??
+!! commenting them for consistency with uxterm, colors are instead done by LESS_TERMCAP_?? variables
+!URxvt.*.colorBD:                red
+!URxvt.*.colorIT:                blue
+!URxvt.*.colorUL:                yellow
+!URxvt.*.underlineColor:         yellow
 
 
 ! Shortcuts

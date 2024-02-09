@@ -93,23 +93,22 @@ function _set_shell {
 }
 
 function _set_term_colors {
-    # configure colors for less (man pages, searching, etc.)
-    export LESS_TERMCAP_mb=$(tput bold; tput setaf 1)    # red
-    export LESS_TERMCAP_md=$(tput bold; tput setaf 4)    # blue
-    export LESS_TERMCAP_me=$(tput sgr0)
-    export LESS_TERMCAP_so=$(tput setaf 7; tput setab 5) # white on magenta
-    export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
-    export LESS_TERMCAP_us=$(tput smul; tput setaf 7)    # white
-    export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
-    export LESS_TERMCAP_mr=$(tput rev)
-    export LESS_TERMCAP_mh=$(tput dim)
-    export LESS_TERMCAP_ZN=$(tput ssubm)
-    export LESS_TERMCAP_ZV=$(tput rsubm)
-    export LESS_TERMCAP_ZO=$(tput ssupm)
-    export LESS_TERMCAP_ZW=$(tput rsupm)
+    # termcap modes: md: bold, mb: blink, me: end; us: underline, ue: end; so: standout, se: end
+    # sequence codes: `\e[38;5??` sets 256/24-bit color; `\e[4;21;...` enables underline mode
+    # color table: https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+    # sequence codes: https://man7.org/linux/man-pages/man4/console_codes.4.html
+    # strangely enough using tput wouldn't work here, but using escaped color sequences did
+    export LESS_TERMCAP_md=$(printf "\e[38;5;46m")
+    export LESS_TERMCAP_mb=$(printf "\e[38;5;196m")
+    export LESS_TERMCAP_me=$(printf "\e[0m")
+    export LESS_TERMCAP_us=$(printf "\e[4;21;38;5;195m")
+    export LESS_TERMCAP_ue=$(printf "\e[0m")
+    export LESS_TERMCAP_so=$(printf "\e[30;43m")
+    export LESS_TERMCAP_se=$(printf "\e[0m")
 }
 
 function _set_misc_options {
+    export MANPAGER='less -M -i -g -R'
     export LESS='-Mig'
     export PAGER=less
     export EDITOR=vim
@@ -117,12 +116,13 @@ function _set_misc_options {
 }
 
 function _set_prompt {
-    fg_red='\e[1;31m'
-    fg_brown='\e[0;33m'
-    fg_blue='\e[1;34m'
-    fg_reset='\e[0m'
-    prompt_salt="${prompt_salt:-saltbae}"
-    fg_hostname="\e[1;32;38;5;$((0x$((echo $prompt_salt; hostname) | sha256sum | cut -f1 -d' ' | tr -d '\n' | tail -c2)))m"
+    local fg_red='\e[1;38;5;160m'
+    local fg_brown='\e[1;38;5;136m'
+    local fg_blue='\e[1;38;5;27m'
+    local fg_reset='\e[0m'
+    local prompt_salt="${prompt_salt:-saltbae}"
+    local fg_user=""
+    local fg_hostname="\e[1;32;38;5;$((0x$((echo $prompt_salt; hostname) | sha256sum | cut -f1 -d' ' | tr -d '\n' | tail -c2)))m"
     if (( $EUID == 0 )); then
         shell_prompt="#"
         fg_user="$fg_red"
@@ -132,27 +132,15 @@ function _set_prompt {
     fi
     if [ -n "$BASH_VERSION" ]; then
         # colors need to be enclosed in brackets like \[$color\] to ensure prompt won't break on line wraps and such
-        PS1="\[${fg_user}\]\u\[${fg_brown}\]@\[${fg_hostname}\]\h\[${fg_brown}\]${shell_prompt}\[${fg_reset}\] "
+        PS1="\[${fg_reset}\]\[${fg_user}\]\u\[${fg_brown}\]@\[${fg_hostname}\]\h\[${fg_brown}\]${shell_prompt}\[${fg_reset}\] "
     elif [ -n "$ZSH_VERSION" ]; then
-        PS1="$(print ""%{$fg_user%}%n%{$fg_brown%}@%{$fg_hostname%}%M%{$fg_brown%}${shell_prompt}%{$fg_reset%} "")"
+        PS1="$(print ""%{$fg_reset%}%{$fg_user%}%n%{$fg_brown%}@%{$fg_hostname%}%M%{$fg_brown%}${shell_prompt}%{$fg_reset%} "")"
     fi
     export PS1
 }
 
 
-# set PATH
-export PATH=$PATH:$HOME/data/home/bin:/opt/bin
 
-# alias (not easily sourced from functions)
-alias ls='ls --color=auto'
-## most convenient and sensible
-alias l='ls -la --color=always --group-directories-first --time-style=long-iso'
-## natural sort of numbers (including versioning)
-alias lln='ls -la --color=always --group-directories-first --time-style=long-iso -v'
-## reverse time (most recent at bottom)
-alias llr='ls -la --color=always --group-directories-first --time-style=long-iso -t -r'
-## full time (microsecond)
-alias llf='ls -la --color=always --group-directories-first --full-time'
 
 # function to temporarily disable history
 alias incognito_aux="function zshaddhistory() {  return 1 }"
@@ -168,6 +156,23 @@ function incognito(){
     fi
     unset HISTFILE
 }
+
+
+# set PATH
+export PATH=$PATH:$HOME/data/home/bin:/opt/bin
+
+# alias (not easily sourced from functions)
+alias grep='grep --color=auto'
+alias grepa='grep --color=always'
+alias ls='ls --color=auto'
+## most convenient and sensible
+alias l='ls -la --color=always --group-directories-first --time-style=long-iso'
+## natural sort of numbers (including versioning)
+alias lln='ls -la --color=always --group-directories-first --time-style=long-iso -v'
+## reverse time (most recent at bottom)
+alias llr='ls -la --color=always --group-directories-first --time-style=long-iso -t -r'
+## full time (microsecond)
+alias llf='ls -la --color=always --group-directories-first --full-time'
 
 
 if [[ -f $HOME/dotfiles_private/shell/.shellrc.local ]]; then
