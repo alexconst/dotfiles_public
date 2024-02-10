@@ -68,7 +68,6 @@ function __set_zsh_config {
     fpath=(/usr/local/share/zsh-completions $fpath) # set zsh function search path
 
     bindkey -M menuselect '^[[Z' reverse-menu-complete      # cycle completions backwards
-    # bindings / shortcuts                                  # TODO: move this and create proper full set of vi bindings
     bindkey '^[[Z' backward-kill-word                       # delete previous word using shift+tab (very convenient when dealing with completions)
     # these were required after starting to use uxterm and urxvt
     bindkey "^A" beginning-of-line
@@ -80,6 +79,8 @@ function __set_zsh_config {
     bindkey "^N" history-search-forward
     bindkey "^R" history-incremental-search-backward
     bindkey "^S" history-incremental-search-forward
+    bindkey "^H" backward-delete-char                       # delete non-inserted characters with backspace
+    bindkey "^?" backward-delete-char                       # delete non-inserted characters with backspace
 
     # TO DELETE:
 #    zstyle ':completion:*' auto-description 'specify: %d'
@@ -118,30 +119,39 @@ function zle-keymap-select {
     if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
         if [[ ${KEYMAP} == vicmd ]]; then
             # Command mode, change cursor color
-            #echo -ne '\033]12;Grey\007'
-            printf "\033]12;Grey\007"
+            payload="\033]12;Red\007"
+            #cursor_color="#808080"
         else
             # Insert mode, change cursor color
-            #echo -ne '\033]12;Green\007'
-            printf "\033]12;Green\007"
+            payload="\033]12;Green\007"
+            #cursor_color="#00FF00"
         fi
+        #if [[ -n "$TMUX" ]]; then
+        #    #echo -ne "\ePtmux;\e\e$payload\e\\"
+        #    #echo "DEBUG: vi mode: $KEYMAP PROMPT: \ePtmux;\e\e$payload\e\\" >> /tmp/tmuxwashereeeee
+        #    printf "\033Ptmux;\033\033]12;%s\007\033\\" "$cursor_color"
+        #else
+        #    #printf "$payload"
+        #    printf "\033]12;#808080\007" "$cursor_color"
+        #fi
+        # NOTE: the above simply doesn't work in tmux :( upstream bug?
+        printf "$payload"
     fi
 }
 # zsh hook function to initialize line editor and set cursor color
 function zle-line-init () {
-    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
+    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]]; then
         zle -K viins
         # Set cursor color to green on initialization
-        #echo -ne '\033]12;Green\007'
         printf "\033]12;Green\007"
     fi
 }
 # Ensure cursor color is reset when leaving zsh
+# NOTE: still doesn't work when using tmux
 function TRAPEXIT {
     # Having a `trap '...' EXIT` didn't work. Neither a zshexit() function. But this zsh hook works.
-    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
-        #echo -ne '\033]12;Grey\007'
-        printf "\033]12;Grey\007"
+    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]]; then
+        printf "\033]12;#808080\007" # `Grey` not recognized by tmux so we use hexcode instead
     fi
 }
 
