@@ -119,23 +119,11 @@ function zle-keymap-select {
     if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
         if [[ ${KEYMAP} == vicmd ]]; then
             # Command mode, change cursor color
-            payload="\033]12;Red\007"
-            #cursor_color="#808080"
+            printf "\033]12;Red\007"
         else
             # Insert mode, change cursor color
-            payload="\033]12;Green\007"
-            #cursor_color="#00FF00"
+            printf "\033]12;Green\007"
         fi
-        #if [[ -n "$TMUX" ]]; then
-        #    #echo -ne "\ePtmux;\e\e$payload\e\\"
-        #    #echo "DEBUG: vi mode: $KEYMAP PROMPT: \ePtmux;\e\e$payload\e\\" >> /tmp/tmuxwashereeeee
-        #    printf "\033Ptmux;\033\033]12;%s\007\033\\" "$cursor_color"
-        #else
-        #    #printf "$payload"
-        #    printf "\033]12;#808080\007" "$cursor_color"
-        #fi
-        # NOTE: the above simply doesn't work in tmux :( upstream bug?
-        printf "$payload"
     fi
 }
 # zsh hook function to initialize line editor and set cursor color
@@ -147,7 +135,6 @@ function zle-line-init () {
     fi
 }
 # Ensure cursor color is reset when leaving zsh
-# NOTE: still doesn't work when using tmux
 function TRAPEXIT {
     # Having a `trap '...' EXIT` didn't work. Neither a zshexit() function. But this zsh hook works.
     if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]]; then
