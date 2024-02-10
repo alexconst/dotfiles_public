@@ -1,8 +1,11 @@
 # vi: ft=sh
 
 # minimalistic shell environment setup with no dependencies for bash and zsh
+# TODO: (this script has grown past its purpose so maybe it's time to) split it into two files
 
-# TODO: (this script is past its purpose so maybe it's time to) split it into two files
+
+_ZSH_VIMODE_CURSOR=1                    # enables cursor color change depending on vi mode
+
 
 
 function __set_bash_history {
@@ -109,6 +112,40 @@ function __set_zsh_colors {
     export ZSH_HIGHLIGHT_HIGHLIGHTERS=( main ) # disable cursor annoying highlighter
 }
 
+
+# zsh hook function to change cursor color
+function zle-keymap-select {
+    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
+        if [[ ${KEYMAP} == vicmd ]]; then
+            # Command mode, change cursor color
+            #echo -ne '\033]12;Grey\007'
+            printf "\033]12;Grey\007"
+        else
+            # Insert mode, change cursor color
+            #echo -ne '\033]12;Green\007'
+            printf "\033]12;Green\007"
+        fi
+    fi
+}
+# zsh hook function to initialize line editor and set cursor color
+function zle-line-init () {
+    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
+        zle -K viins
+        # Set cursor color to green on initialization
+        #echo -ne '\033]12;Green\007'
+        printf "\033]12;Green\007"
+    fi
+}
+# Ensure cursor color is reset when leaving zsh
+function TRAPEXIT {
+    # Having a `trap '...' EXIT` didn't work. Neither a zshexit() function. But this zsh hook works.
+    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
+        #echo -ne '\033]12;Grey\007'
+        printf "\033]12;Grey\007"
+    fi
+}
+
+
 function _set_shell {
     __set_shell_common
     if [ -n "$BASH_VERSION" ]; then
@@ -118,6 +155,11 @@ function _set_shell {
         __set_zsh_history
         __set_zsh_config
         __set_zsh_colors
+        if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
+            # despite being hooks, still have to call them otherwise it won't work properly
+            zle -N zle-keymap-select
+            zle -N zle-line-init
+        fi
     fi
 }
 
