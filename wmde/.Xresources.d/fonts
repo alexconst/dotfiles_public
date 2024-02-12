@@ -9,7 +9,8 @@ Xft.lcdfilter : lcddefault
 Xft.hintstyle : hintfull
 Xft.hinting   : 1
 Xft.antialias : 1
-Xft.rgba      : rgb
+! setting Xft.rgba to none fixes the wide spacing between characters in urxvt
+Xft.rgba      : none
 
 
 

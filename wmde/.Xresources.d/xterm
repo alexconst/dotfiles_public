@@ -29,8 +29,10 @@ UXTerm.*.scrollTtyOutput:       false
 UXTerm.*.saveLines:             2000
 
 ! Styling
-UXTerm.*.faceName:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
-UXTerm.*.boldFont:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
+UXTerm.*.faceName:              xft:MesloLGS NF:size=12:antialias=true:style=Regular
+UXTerm.*.boldFont:              xft:MesloLGS NF:size=12:antialias=true:style=Bold
+!UXTerm.*.faceName:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
+!UXTerm.*.boldFont:              xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
 UXTerm.*.boldMode:              false
 UXTerm.*.allowBoldFonts:        true
 UXTerm.*.internalBorder:        8

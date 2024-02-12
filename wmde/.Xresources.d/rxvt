@@ -29,10 +29,12 @@ URxvt.*.saveLines:              2000
 
 
 ! Styling
-URxvt.*.font:                   xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
-URxvt.*.boldFont:               xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
+URxvt.*.font:                   xft:MesloLGS NF:size=12:antialias=true:style=Regular
+URxvt.*.boldFont:               xft:MesloLGS NF:size=12:antialias=true:style=Bold
+!URxvt.*.font:                   xft:DejaVu Sans Mono:size=12:antialias=true:style=Regular
+!URxvt.*.boldFont:               xft:DejaVu Sans Mono:size=12:antialias=true:style=Bold
 !! how many pixels to use as margin before characters can be drawn (you can see the difference when viewing a manpage)
-URxvt.*.internalBorder:         5
+URxvt.*.internalBorder:         8
 !! the following settings can be seen in effect when opening a manpage unless overriden by LESS_TERMCAP_??
 !! commenting them for consistency with uxterm, colors are instead done by LESS_TERMCAP_?? variables
 !URxvt.*.colorBD:                red
