@@ -4,8 +4,14 @@
 # TODO: (this script has grown past its purpose so maybe it's time to) split it into two files
 
 
-_ZSH_VIMODE_CURSOR=1                    # enables cursor color change depending on vi mode
+DOTFILES_PUBLIC="$HOME/dotfiles_public"
+DOTFILES_PRIVATE="$HOME/dotfiles_private"
 
+
+# load settings specific to this machine, including custom functions and configuration (eg: _ZSH_POWERLEVEL10K)
+if [[ -f "$DOTFILES_PRIVATE/shell/.shellrc.local" ]]; then
+    source "$DOTFILES_PRIVATE/shell/.shellrc.local"
+fi
 
 
 function __set_bash_history {
@@ -30,8 +36,17 @@ function __set_zsh_history {
     setopt histignorespace              # ignore commands that have a leading space
 }
 
-function __set_shell_common {
-    stty -ixon                          # unbind software flow control shortcuts (ctrl+s and ctrl+q) in terminal, so they can be used for other purposes
+function __set_tty {
+    # if the current shell is an interactive one then unbind software flow control shortcuts (ctrl+s and ctrl+q) in terminal, so they can be used for other purposes
+    if [[ $- == *i* ]]; then
+       if [[ -n "$TTY" ]]; then
+            # including the redirection fixes `stty: 'standard input': Inappropriate ioctl for device` from powerlevel10k
+            # https://github.com/romkatv/powerlevel10k/issues/388
+            stty -ixon <$TTY >$TTY
+        else
+            stty -ixon
+        fi
+    fi
 }
 
 function __set_bash_config {
@@ -116,7 +131,7 @@ function __set_zsh_colors {
 
 # zsh hook function to change cursor color
 function zle-keymap-select {
-    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
+    if [[ $_ZSH_VIMODECURSOR -eq 1 ]] then
         if [[ ${KEYMAP} == vicmd ]]; then
             # Command mode, change cursor color
             printf "\033]12;Red\007"
@@ -128,7 +143,7 @@ function zle-keymap-select {
 }
 # zsh hook function to initialize line editor and set cursor color
 function zle-line-init () {
-    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]]; then
+    if [[ $_ZSH_VIMODECURSOR -eq 1 ]]; then
         zle -K viins
         # Set cursor color to green on initialization
         printf "\033]12;Green\007"
@@ -137,14 +152,14 @@ function zle-line-init () {
 # Ensure cursor color is reset when leaving zsh
 function TRAPEXIT {
     # Having a `trap '...' EXIT` didn't work. Neither a zshexit() function. But this zsh hook works.
-    if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]]; then
+    if [[ $_ZSH_VIMODECURSOR -eq 1 ]]; then
         printf "\033]12;#808080\007" # `Grey` not recognized by tmux so we use hexcode instead
     fi
 }
 
 
 function _set_shell {
-    __set_shell_common
+    __set_tty
     if [ -n "$BASH_VERSION" ]; then
         __set_bash_history
         __set_bash_config
@@ -152,7 +167,7 @@ function _set_shell {
         __set_zsh_history
         __set_zsh_config
         __set_zsh_colors
-        if [[ $_ZSH_VIMODE_CURSOR -eq 1 ]] then
+        if [[ $_ZSH_VIMODECURSOR -eq 1 ]] then
             # despite being hooks, still have to call them otherwise it won't work properly
             zle -N zle-keymap-select
             zle -N zle-line-init
@@ -207,6 +222,23 @@ function _set_prompt {
     export PS1
 }
 
+function _set_zsh_p10k {
+    # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+    # Initialization code that may require console input (password prompts, [y/n]
+    # confirmations, etc.) must go above this block; everything else may go below.
+    if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    fi
+
+    # load p10k
+    script="$DOTFILES_PUBLIC/powerlevel10k/powerlevel10k.zsh-theme"
+    if [[ -f "$script" ]]; then
+        source "$script"
+    fi
+
+    # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+    [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+}
 
 
 
@@ -243,14 +275,13 @@ alias llr='ls -la --color=always --group-directories-first --time-style=long-iso
 alias llf='ls -la --color=always --group-directories-first --full-time'
 
 
-if [[ -f $HOME/dotfiles_private/shell/.shellrc.local ]]; then
-    source $HOME/dotfiles_private/shell/.shellrc.local
-fi
-
-
 # main
 _set_shell
 _set_term_colors
 _set_misc_options
-_set_prompt
+if [[ -n "$ZSH_VERSION" ]] && [[ "$_ZSH_POWERLEVEL10K" -eq 1 ]]; then
+    _set_zsh_p10k
+else
+    _set_prompt
+fi
 
