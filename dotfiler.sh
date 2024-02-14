@@ -110,44 +110,27 @@ adopt_dotfiles() {
 
 # private-template operation: create folder structure
 private_template() {
-  local folder_name="$1"
-  if [[ -z $folder_name ]]; then
-    folder_name="dotfiles_private"
+  local privates_folder="$1"
+  local templates_folder="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/templates"
+  if [[ -z $privates_folder ]]; then
+    privates_folder="$HOME/dotfiles_private"
   fi
   cd $HOME
-  msg_warn="WARN: skipping because file already exists:"
-  msg_info="INFO: DRY-RUN would create file:"
 
-  target_file="$folder_name/shell/.gitconfig.user"
-  mkdir -p $(dirname $target_file)
-  if [[ -f "$target_file" ]]; then
-    echo "$msg_warn $target_file"
-  elif [[ "$dry_run" == "true" ]]; then
-    echo "$msg_info $target_file"
-  else
-    cat <<'EOT' > "$target_file"
-[user]
-    email = $USER@$(hostname).local
-    name = $USER
-EOT
-  fi
+  files=("shell/.gitconfig.user" "ssh/.ssh/config" "shell/.shellrc.local")
+  for item in "${files[@]}"; do
+    source_file="$templates_folder/$(echo ${item} | sed 's#_#/#g')"
+    target_file="$privates_folder/$item"
+    if [[ -f "$target_file" ]]; then
+      echo "WARN: skipping because file already exists: $target_file"
+    elif [[ "$dry_run" == "true" ]]; then
+      echo "INFO: DRY-RUN would copy: ${source_file}  ->  ${target_file}"
+    else
+      mkdir -p $(dirname $target_file)
+      cat "${source_file}" | envsubst > "${target_file}"
+    fi
+  done
 
-  target_file="$folder_name/ssh/.ssh/config"
-  mkdir -p $(dirname $target_file)
-  if [[ -f "$target_file" ]]; then
-    echo "$msg_warn $target_file"
-  elif [[ "$dry_run" == "true" ]]; then
-    echo "$msg_info $target_file"
-  else
-    cat <<'EOT' > "$target_file"
-Host softserve
-  HostName mothership
-  Port 23231
-  IdentityFile ~/.ssh/softserve_user_ed25519
-EOT
-  fi
-
-  touch $folder_name/shell/.shellrc.local
 }
 
 # browse operation: browse soft-serve git repo

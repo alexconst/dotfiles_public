@@ -1,0 +1,5 @@
+Host softserve
+  HostName mothership
+  Port 23231
+  IdentityFile ~/.ssh/softserve_user_ed25519
+

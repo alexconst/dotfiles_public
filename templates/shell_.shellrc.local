@@ -1,0 +1,27 @@
+# vi: ft=sh
+
+export _ZSH_VIMODECURSOR=1                     # enables cursor color change depending on vi mode
+export _ZSH_POWERLEVEL10K=1                    # enables powerlevel10k
+
+export DATA_FOLDER="$HOME/data/home"
+export PATH="$DATA_FOLDER/bin:$PATH"
+
+# load aliases
+if [[ -e "$DATA_FOLDER/bin/aliases.sh" ]]; then
+    source "$DATA_FOLDER/bin/aliases.sh"
+fi
+
+# load functions
+if [[ -e "$DATA_FOLDER/bin/functions.sh" ]]; then
+    source "$DATA_FOLDER/bin/functions.sh"
+fi
+
+
+# my text folders
+# because arrays can't be exported we have to work around it by flattening it here (this still seems better than a config file)
+export TEXT_FOLDERS="$DATA_FOLDER/documents/technical|$DATA_FOLDER/documents/texts"
+
+## maybe move to aliases?
+alias my_python="source $DATA_FOLDER/builds/mypython/bin/activate"
+alias go_venv="source venv/bin/activate"
+

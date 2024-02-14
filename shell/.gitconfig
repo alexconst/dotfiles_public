@@ -111,6 +111,7 @@
     gitkconflict = !gitk --left-right HEAD...MERGE_HEAD
 
     # remote
+    rl = remote -v
     psom = push -u origin master
     psum = push -u upstream master
     plom = pull -u origin master

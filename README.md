@@ -63,18 +63,19 @@ Create folder structure for private dotfiles (ie these are not stored in the rem
 $tool -n private-template ~/dotfiles_private
 $tool    private-template ~/dotfiles_private
 
-# as an example for ssh
+# then stash your private dotfiles, as an example for ssh:
 mv ~/.ssh ~/dotfiles_private/ssh/
 cd dotfiles_private
 echo ".ssh" > .gitignore # optional and will change depending if or to where you'll be pushing dotfiles_private
 
-# deploy
+# and finally deploy (ie link back)
 ###stow ssh
 ###stow shell
 packages="shell ssh"
 $tool -n deploy-dotfiles-from-local ~/dotfiles_private $packages
 $tool    deploy-dotfiles-from-local ~/dotfiles_private $packages
 ```
+
 
 
 ## step 4: configure git remote
