@@ -15,6 +15,8 @@ UXTerm.*.trimSelection:         true
 ! Tweaks
 !! report TERM variable with 256 colors support
 UXTerm.*.termName:              xterm-256color
+!! report TERM variable with 16M (24-bit) colors support NOTE: this does not seem to be required at all, so using xterm-256color to avoid eventual incompatibilities
+!UXTerm.*.termName:              xterm-direct
 !! sixel support
 UXTerm.*.decTerminalID:         vt382
 UXTerm.*.numColorRegisters:     256

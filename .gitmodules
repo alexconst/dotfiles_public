@@ -14,6 +14,23 @@
 	path = powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k
 
+[submodule "tmux/.tmux/plugins/tpm"]
+	path = tmux/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+	branch = master
+[submodule "tmux/.tmux/plugins/tmux-sensible"]
+	path = tmux/.tmux/plugins/tmux-sensible
+	url = https://github.com/tmux-plugins/tmux-sensible
+	branch = master
+[submodule "tmux/.tmux/plugins/tmux-resurrect"]
+	path = tmux/.tmux/plugins/tmux-resurrect
+	url = https://github.com/tmux-plugins/tmux-resurrect
+	branch = master
+[submodule "tmux/.tmux/plugins/tmux-continuum"]
+	path = tmux/.tmux/plugins/tmux-continuum
+	url = https://github.com/tmux-plugins/tmux-continuum
+	branch = master
+
 [submodule "vim/.vim/bundle/vim-colors-solarized"]
 	path = vim/.vim/bundle/vim-colors-solarized
 	url = ssh://softserve/vim-colors-solarized
