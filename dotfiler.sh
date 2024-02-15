@@ -8,6 +8,8 @@ dry_run=false
 # default git remote name
 git_name=${git_name:-home}
 
+STOW_ARGS=""
+
 
 # run stow to either deploy or retrieve dotfiles
 run_stow() {
@@ -18,23 +20,30 @@ run_stow() {
     return
   fi
   folder_name="$(readlink -f $folder_name)"
+  if [[ ! -d $folder_name ]]; then
+    echo "ERROR: no such dotfiles folder: $folder_name"
+    return
+  fi
   pushd . >/dev/null
   cd ${folder_name}
   if [[ -z "$packages" ]]; then
+    # if no packages provided them use all packages/subfolders in the dotfiles folder
     packages=$(ls -d */ | xargs -n 1 basename | paste -sd ' ')
   fi
   if [ "$dry_run" = "true" ]; then
     echo "Dry run: cd ${folder_name}"
-    echo "Dry run: stow -n --verbose=2 ${stow_args} ${packages}"
-    stow -n --verbose=2 ${stow_args} ${packages}
+    echo "Dry run: stow -n --verbose=2 ${STOW_ARGS} ${packages}"
+    stow -n --verbose=2 ${STOW_ARGS} ${packages}
   else
-    stow ${stow_args} ${packages}
+    # NOTE: stow output print is bugged when running inside a script, it doesn't print as if in interactive shell; this breaks/fumbles its output
+    stow --verbose=1 ${STOW_ARGS} ${packages}
+    echo "Finished stowing packages: ${packages}"
   fi
   popd >/dev/null
 }
 
 retreat_dotfiles() {
-  stow_args="--delete"
+  STOW_ARGS="--delete"
   run_stow "$@"
 }
 
@@ -90,7 +99,7 @@ deploy_dotfiles() {
 
 # adopt-dotfiles operation: run stow
 adopt_dotfiles() {
-  export stow_args=" "
+  STOW_ARGS=" "
   dotfiles_folder="$(readlink -f $1)"
   package_name="$2"
   shift 2
@@ -281,15 +290,17 @@ while [[ $# -gt 0 ]]; do
     ;;
     deploy-dotfiles-from-local)
       shift
-      #export stow_args=" " # couldn't find a flag that would help in overwriting existing files with stow links
+      #export STOW_ARGS=" " # couldn't find a flag that would help in overwriting existing files with stow links
       remove_dotfiles "$@"
+      echo ""
       deploy_dotfiles "local" "$@"
       break
     ;;
     deploy-dotfiles-from-remote)
       shift
-      #export stow_args=" " # couldn't find a flag that would help in overwriting existing files with stow links
+      #export STOW_ARGS=" " # couldn't find a flag that would help in overwriting existing files with stow links
       remove_dotfiles "$@"
+      echo ""
       deploy_dotfiles "remote" "$@"
       break
     ;;
