@@ -55,7 +55,9 @@ UXTerm.*.translations: #override \n\
     Alt <KeyPress> Up: scroll-back(1, line) \n\
     Alt <KeyPress> Down: scroll-forw(1, line) \n\
     Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
-    Ctrl Shift <Key>V: insert-selection(CLIPBOARD)
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD) \n\
+    Ctrl <Key> minus: smaller-vt-font() \n\
+    Ctrl <Key> plus: larger-vt-font()
 
 ! NOTE: ended up commenting these because they break usability on programs (eg: less, vim), but maybe could change them to ctrl+shift+U/D
 !    Ctrl <Key>U: scroll-back(1, halfpage) \n\
