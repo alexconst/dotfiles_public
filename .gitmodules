@@ -13,6 +13,10 @@
 [submodule "powerlevel10k"]
 	path = powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k
+[submodule "vim/.vim/bundle/vim-solarized8"]
+	path = vim/.vim/bundle/vim-solarized8
+	url = https://github.com/lifepillar/vim-solarized8
+	branch = master
 
 [submodule "tmux/.tmux/plugins/tpm"]
 	path = tmux/.tmux/plugins/tpm
@@ -31,10 +35,6 @@
 	url = https://github.com/tmux-plugins/tmux-continuum
 	branch = master
 
-[submodule "vim/.vim/bundle/vim-colors-solarized"]
-	path = vim/.vim/bundle/vim-colors-solarized
-	url = ssh://softserve/vim-colors-solarized
-	branch = develop
 [submodule "vim/.vim/bundle/vim-markdown"]
 	path = vim/.vim/bundle/vim-markdown
 	url = ssh://softserve/vim-markdown
@@ -43,4 +43,9 @@
 	path = vim/.vim/bundle/vim-pajema
 	url = ssh://softserve/vim-pajema
 	branch = master
+[submodule "vim/.vim/bundle/vim-colors-solarized"]
+	path = vim/.vim/bundle/vim-colors-solarized
+	url = ssh://softserve/vim-colors-solarized
+	branch = develop
+
 

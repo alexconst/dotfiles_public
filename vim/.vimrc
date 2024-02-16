@@ -241,18 +241,33 @@ autocmd ColorScheme * hi diffNoEOL        ctermfg=11 guifg=yellow1
 """""""""""""""""""""""""""""""""""""""""""""""""
 "" NOTE: due to solarized being installed as a plugin this section needs to come after pathogen is active
 "" NOTE: to check how many colors your terminal emulator supports run: `tput colors`
-set t_Co=256                        " enable 256-color terminal support
+
 set background=dark                 " use a dark background
-try
-    let g:solarized_termcolors=256  " enable theme's 256-color terminal support
-    let g:solarized_termtrans=0     " if set to 1 it will use the terminal's background; if set to 0 it will use the theme's one
-    "let g:solarized_contrast='high' " shifts some values up or down in order to expand or compress the tonal range displayed.
-    "let g:solarized_diffmode='high'
-    let g:solarized_brighter=1      " makes greys whiter
-    colorscheme solarized           " set theme
-catch /^Vim\%((\a\+)\)\=:E185/
-    colorscheme desert
-endtry
+" 24-bit color mode (16777216 colours)
+if has('gui_running') || &term =~ '^\%(xterm-direct\|tmux-direct\)'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+    try
+        colorscheme solarized8_high
+    catch /^Vim\%((\a\+)\)\=:E185/
+        colorscheme desert
+    endtry
+" 8-bit colour mode (256 colours)
+else
+    set t_Co=256                        " force 256-color terminal support
+    try
+        let g:solarized_termcolors=256  " enable theme's 256-color terminal support
+        let g:solarized_termtrans=0     " if set to 1 it will use the terminal's background; if set to 0 it will use the theme's one
+        "let g:solarized_contrast='high' " shifts some values up or down in order to expand or compress the tonal range displayed.
+        "let g:solarized_diffmode='high'
+        let g:solarized_brighter=1      " makes greys whiter
+        colorscheme solarized           " set theme
+    catch /^Vim\%((\a\+)\)\=:E185/
+        colorscheme desert
+    endtry
+endif
+
 " top and bottom bar lines
 autocmd ColorScheme * hi TabLineSel     term=bold cterm=bold gui=bold
 autocmd ColorScheme * hi TabLine        ctermfg=Grey ctermbg=NONE term=reverse cterm=reverse gui=reverse
