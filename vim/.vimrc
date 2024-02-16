@@ -190,11 +190,22 @@ set redrawtime=10000
 " help troubleshoot undesirable syntax highlight (comment it if not using it)
 "map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+" use a different color for the current match than for other matches
+augroup procsearch
+  autocmd!
+  au CmdLineLeave * let b:cmdtype = expand('<afile>') | if (b:cmdtype == '/' || b:cmdtype == '?') | call timer_start(200, 'ProcessSearch') | endif
+augroup END
+function! ProcessSearch(timerid)
+    let l:patt = '\%#' . @/
+    if &ic | let l:patt = '\c' . l:patt | endif
+    exe 'match ErrorMsg /' . l:patt . '/'
+endfunc
+
 " enable highlight for spellcheck in the terminal, https://vi.stackexchange.com/questions/15422/figure-out-which-dictionary-is-used-when-spell-checking
-autocmd ColorScheme * hi SpellBad cterm=underline ctermfg=blue
-autocmd ColorScheme * hi SpellCap cterm=underline ctermfg=red
+autocmd ColorScheme * hi SpellBad cterm=underline ctermfg=red
+autocmd ColorScheme * hi SpellCap cterm=underline ctermfg=yellow
 autocmd ColorScheme * hi SpellRare cterm=underline ctermfg=green
-autocmd ColorScheme * hi SpellLocal cterm=underline ctermfg=yellow
+autocmd ColorScheme * hi SpellLocal cterm=underline ctermfg=magenta
 " always highlight some keywords
 autocmd Syntax * call matchadd('PostIt', '\<NOTE\>:\|\<TODO\>:\|\<TLDR\>:\|\<tldr\>:')     " au Syntax ensures matching happens for any new tabs/buffers
 autocmd ColorScheme * highlight PostIt cterm=bold ctermbg=yellow ctermfg=red guibg=yellow guifg=red   " ensure colorscheme loading does not override this
