@@ -191,7 +191,7 @@ function _set_term_colors {
 }
 
 function _set_misc_options {
-    export MANPAGER='less -M -i -g -R'
+    export MANPAGER='less -R -Mig' # -M improves visibility by only highlighting the current line
     export LESS='-Mig'
     export PAGER=less
     export EDITOR=vim

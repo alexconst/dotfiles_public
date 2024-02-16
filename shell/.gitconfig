@@ -3,7 +3,8 @@
 
 
 [core]
-    pager = less -+$LESS -R
+    #pager = less -+$LESS -R
+    pager = vim +AnsiEsc +'set buftype=nofile' -M - # WIP, the only minor issue is that search will also search into color codes (eg: 32)
     excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
 ;    hooksPath = ./submodules/git-config/hooks
@@ -98,6 +99,8 @@
     lbh = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
     ## list it all! all commits for all branch with full information (most verbose one)
     lia = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %Cgreen(%cr, %ad) %C(bold blue)(%an <%ae>)%Creset' --date=iso --abbrev-commit --full-history --all
+    ## lia and include list of modified files
+    lez = lia --name-only
     ## show log with associated patch
     logp = log -p
 
