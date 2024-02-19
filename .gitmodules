@@ -1,3 +1,6 @@
+################################################################
+# vim and shell
+################################################################
 [submodule "vim/.vim/bundle/nerdtree"]
 	path = vim/.vim/bundle/nerdtree
 	url = https://github.com/preservim/nerdtree.git
@@ -10,14 +13,33 @@
 	path = vim/.vim/bundle/vim-plugin-AnsiEsc
 	url = https://github.com/powerman/vim-plugin-AnsiEsc.git
 	branch = master
-[submodule "powerlevel10k"]
-	path = powerlevel10k
-	url = https://github.com/romkatv/powerlevel10k
 [submodule "vim/.vim/bundle/vim-solarized8"]
 	path = vim/.vim/bundle/vim-solarized8
 	url = https://github.com/lifepillar/vim-solarized8
 	branch = master
+[submodule "powerlevel10k"]
+	path = powerlevel10k
+	url = https://github.com/romkatv/powerlevel10k
 
+################################################################
+# vim - local repos
+################################################################
+[submodule "vim/.vim/bundle/vim-markdown"]
+	path = vim/.vim/bundle/vim-markdown
+	url = ssh://softserve/vim-markdown
+	branch = feat/toc_location
+[submodule "vim/.vim/bundle/vim-pajema"]
+	path = vim/.vim/bundle/vim-pajema
+	url = ssh://softserve/vim-pajema
+	branch = master
+[submodule "vim/.vim/bundle/vim-colors-solarized"]
+	path = vim/.vim/bundle/vim-colors-solarized
+	url = ssh://softserve/vim-colors-solarized
+	branch = develop
+
+################################################################
+# tmux
+################################################################
 [submodule "tmux/.tmux/plugins/tpm"]
 	path = tmux/.tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
@@ -34,18 +56,18 @@
 	path = tmux/.tmux/plugins/tmux-continuum
 	url = https://github.com/tmux-plugins/tmux-continuum
 	branch = master
-
-[submodule "vim/.vim/bundle/vim-markdown"]
-	path = vim/.vim/bundle/vim-markdown
-	url = ssh://softserve/vim-markdown
-	branch = feat/toc_location
-[submodule "vim/.vim/bundle/vim-pajema"]
-	path = vim/.vim/bundle/vim-pajema
-	url = ssh://softserve/vim-pajema
+[submodule "tmux/.tmux/plugins/tmux-open"]
+	path = tmux/.tmux/plugins/tmux-open
+	url = https://github.com/tmux-plugins/tmux-open
 	branch = master
-[submodule "vim/.vim/bundle/vim-colors-solarized"]
-	path = vim/.vim/bundle/vim-colors-solarized
-	url = ssh://softserve/vim-colors-solarized
-	branch = develop
+[submodule "tmux/.tmux/plugins/tmux-powerline"]
+	path = tmux/.tmux/plugins/tmux-powerline
+	url = https://github.com/erikw/tmux-powerline
+	branch = master
+[submodule "tmux/.tmux/plugins/tmux-mem-cpu-load"]
+	path = tmux/.tmux/plugins/tmux-mem-cpu-load
+	url = https://github.com/thewtex/tmux-mem-cpu-load
+	branch = master
+
 
 
