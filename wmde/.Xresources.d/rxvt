@@ -17,7 +17,6 @@ URxvt.*.termName:               rxvt-unicode-256color
 URxvt.*.perl-ext:               default,font-size
 URxvt.url-launcher:             /usr/bin/xdg-open
 
-
 ! Scrolling
 URxvt.*.scrollstyle:            plain
 URxvt.*.scrollBar:              true
@@ -26,7 +25,7 @@ URxvt.*.mouseWheelScrollPage:   false
 URxvt.*.scrollTtyKeypress:      true
 URxvt.*.scrollTtyOutput:        false
 URxvt.*.saveLines:              2000
-
+URxvt.*.thickness:              10
 
 ! Styling
 URxvt.*.font:                   xft:MesloLGS NF:size=12:antialias=true:style=Regular

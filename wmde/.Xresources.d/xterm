@@ -30,6 +30,7 @@ UXTerm.*.scrollWithBuffer:      true
 UXTerm.*.scrollTtyKeypress:     true
 UXTerm.*.scrollTtyOutput:       false
 UXTerm.*.saveLines:             2000
+UXTerm.*.Scrollbar*width:       10
 
 ! Styling
 UXTerm.*.faceName:              xft:MesloLGS NF:size=12:antialias=true:style=Regular
