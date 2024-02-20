@@ -1,6 +1,9 @@
 # vim swap files
 *.swp
-# ignore mru type of file
+# vim mru type of file
 vim/.vim/.netrwhist
+# WM/DE files
 i3/.config/jgmenu/resolutions.csv
+i3/.config/xfce4/help.rc
+i3/.config/xfce4/xfce4-screenshooter
 
