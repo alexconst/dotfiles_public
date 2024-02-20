@@ -22,7 +22,10 @@ set $screenlock i3lock -i ~/wallpapers/screenlock.png
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+# falling to MesloLGS NF for the glyphs and consistency
 font pango:DejaVu Sans Mono 8
+font MesloLGS NF 8
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
@@ -129,21 +132,21 @@ bindsym $mod+c focus child
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-# quick terminal:
-set $ws10 "10"
+set $ws1 "1:❶"
+set $ws2 "2:❷"
+set $ws3 "3:❸"
+set $ws4 "4:❹"
+set $ws5 "5:❺"
+set $ws6 "6:❻"
+set $ws7 "7:❼"
+set $ws8 "8:❽"
+set $ws9 "9:❾"
+# quick terminal: 🤖🖮
+set $ws10 "10:❿"
 # monitoring terminal:
-set $ws50 "50"
+set $ws50 "50:🐧"
 # wallpaper (no windows):
-set $ws99 "99"
+set $ws99 "99:🗻"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -255,10 +258,10 @@ bindsym $mod+Tab workspace next
 ## cycle workspaces
 bindsym $mod+Shift+Tab workspace prev
 ## use Alt+Tab to cycle through windows on the same workspace
-bindsym $alt+Tab exec --no-startup-id i3-msg border pixel 5; focus next
-bindsym --release $alt+Tab exec i3-msg border pixel 0
-bindsym $alt+Shift+Tab exec --no-startup-id i3-msg border pixel 5; focus prev
-bindsym --release $alt+Shift+Tab exec i3-msg border pixel 0
+bindsym $alt+Tab exec --no-startup-id i3-msg focus next
+#bindsym --release $alt+Tab exec i3-msg border normal
+bindsym $alt+Shift+Tab exec --no-startup-id i3-msg focus prev
+#bindsym --release $alt+Shift+Tab exec i3-msg border normal
 
 
 
