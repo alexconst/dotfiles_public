@@ -4,9 +4,12 @@
 
 [core]
     #pager = less -+$LESS -R
-    pager = vim +AnsiEsc +'set buftype=nofile' +'set nonumber' -M - # WIP, the only minor issue is that search will also search into color codes (eg: 32)
+    # vim: do not ask so save on exit, disable number columns, exit on single keypress of q, enable interpretation of color codes, read only buffer
+    pager = vim +'set buftype=nofile' +'set nonumber' +'nnoremap q :q<CR>' +AnsiEsc -M -
+    # vim has bugs in text wrapping with character concealment thus the flawed text width, see https://github.com/vim/vim/issues/260 Another issue is that concealed text is still searchable
+
     excludesfile = ~/.gitignore
-	attributesfile = ~/.gitattributes
+    attributesfile = ~/.gitattributes
 ;    hooksPath = ./submodules/git-config/hooks
 
 
@@ -45,10 +48,10 @@
 
 [alias]
     # BASICS
-    np = !git --no-pager
+    gnp = !git --no-pager
     st = status
     co = checkout
-    br = !git --no-pager branch
+    br = gnp branch
 
     # BRANCHES
     ## list all branches
@@ -84,11 +87,11 @@
 
     # TAGS
     ## list tags and corresponding tag message:
-    ltm = tag -l -n1
+    ltm = gnp tag -l -n1
     ## list tags and corresponding timestamp:
-    ltt = log --tags --simplify-by-decoration --pretty='format:%ai %d'
+    ltt = gnp log --tags --simplify-by-decoration --pretty='format:%ai %d'
     ## list tags and associated commit:
-    ltc = show-ref --tags
+    ltc = gnp show-ref --tags
 
     # LOGS
     ## log one liner
