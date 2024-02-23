@@ -22,7 +22,7 @@ function __set_bash_history {
     export HISTFILESIZE=10000           # write more history
     export HISTSIZE=10000               # remember more history
     export HISTCONTROL=ignoreboth       # ignore commands beginning with a space and duplicates
-    export HISTIGNORE='ls:bg:fg:exit:clear'   # ignore lame commands
+    export HISTIGNORE='ls*:bg:fg:exit:clear:incognito' # ignore lame commands
     export PROMPT_COMMAND='history -a'  # store history immediately
 }
 
@@ -34,6 +34,7 @@ function __set_zsh_history {
     setopt incappendhistory             # history will be saved after every command you run (good for when power failures happen)
     setopt histignorealldups            # ignore duplicates
     setopt histignorespace              # ignore commands that have a leading space
+    HISTORY_IGNORE='ls*|bg|fg|exit|clear|incognito'
 }
 
 function __set_tty {
@@ -240,23 +241,31 @@ function _set_zsh_p10k {
     [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 }
 
+function _set_extras {
+    file="/home/linuxbrew/.linuxbrew/bin/brew"
+    if [[ -f "$file" ]]; then
+        eval "$($file shellenv)"
+    fi
+}
+
+
 
 
 # function to temporarily disable history
-alias incognito_aux="function zshaddhistory() {  return 1 }"
-function incognito(){
+#alias incognito_aux="function zshaddhistory() {  return 1 }"
+function incognito() {
     if [ -n "$BASH_VERSION" ]; then
-        HISTCONTROL="ignorespace"
+        #HISTCONTROL="ignorespace" # these should not be required because we already done them before and furthermore because we disable all history it's not required at all
         set +o history
     elif [ -n "$ZSH_VERSION" ]; then
-        setopt HIST_IGNORE_SPACE
-        setopt histignorespace
-        setopt hist_ignore_space
+        #setopt HIST_IGNORE_SPACE
+        #setopt histignorespace
+        #setopt hist_ignore_space
         #incognito_aux # weirdly enough this still gets called when starting bash (at least from a zsh) so disabling it for now; it shouldn't make a difference
+        echo > /dev/null # nop
     fi
     unset HISTFILE
 }
-
 
 # set PATH
 export PATH=$PATH:$HOME/data/home/bin:/opt/bin
@@ -284,4 +293,6 @@ if [[ -n "$ZSH_VERSION" ]] && [[ "$_ZSH_POWERLEVEL10K" -eq 1 ]]; then
 else
     _set_prompt
 fi
+_set_extras
+
 
