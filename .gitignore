@@ -6,4 +6,6 @@ vim/.vim/.netrwhist
 i3/.config/jgmenu/resolutions.csv
 i3/.config/xfce4/help.rc
 i3/.config/xfce4/xfce4-screenshooter
+# other
+shell/.config/lazygit/state.yml
 

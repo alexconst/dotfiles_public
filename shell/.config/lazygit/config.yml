@@ -1,0 +1,20 @@
+# how to: https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+# https://github.com/dlvhdr/dotfiles/blob/main/.config/lazygit/config.yml
+
+gui:
+  nerdFontsVersion: "3"
+  showIcons: true
+  theme:
+    activeBorderColor:
+      - "#89ddff"
+      - bold
+    inactiveBorderColor:
+      - "#565f89"
+    optionsTextColor:
+      - "#3d59a1"
+    selectedLineBgColor:
+      - "#292e42"
+      - bold
+    selectedRangeBgColor:
+      - "#89ddff"
+
