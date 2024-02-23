@@ -22,7 +22,7 @@ function __set_bash_history {
     export HISTFILESIZE=10000           # write more history
     export HISTSIZE=10000               # remember more history
     export HISTCONTROL=ignoreboth       # ignore commands beginning with a space and duplicates
-    export HISTIGNORE='ls*:bg:fg:exit:clear:incognito' # ignore lame commands
+    export HISTIGNORE='ls*:bg:fg:exit:clear:incognito' # ignore lame commands (tip: keep in mind they still show in current shell session, but don't get saved)
     export PROMPT_COMMAND='history -a'  # store history immediately
 }
 
@@ -72,6 +72,10 @@ function __set_zsh_config {
     setopt interactivecomments                  # ignore lines starting with # when using an interactive shell
     setopt globdots                             # completion for hidden files (also forces completion for the . and .. folders)
     # completion
+    FPATH="/usr/local/share/zsh-completions:$FPATH" # set zsh function search path
+    if type brew &>/dev/null; then
+        FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+    fi
     autoload -Uz compinit                       # completion support
     compinit                                    # completion support
     autoload bashcompinit                       # completion support with bash compatibility
@@ -81,7 +85,6 @@ function __set_zsh_config {
     #zstyle ':completion:*' special-dirs true    # add completion for . and .. dirs when using globdots
     zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(|.|..) ]] && reply=(..)' # this disables completion for . when using globdots, but keeps ..
     zstyle ':completion:*' menu select
-    fpath=(/usr/local/share/zsh-completions $fpath) # set zsh function search path
 
     bindkey -M menuselect '^[[Z' reverse-menu-complete      # cycle completions backwards
     bindkey '^[[Z' backward-kill-word                       # delete previous word using shift+tab (very convenient when dealing with completions)
