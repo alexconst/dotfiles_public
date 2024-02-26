@@ -20,7 +20,7 @@ return {
     },
   },
 
-  -- show tab number in tabs -- NOTE: shows number on left side, but only shows filename of current tab
+  -- tweak tabline visuals
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
@@ -28,9 +28,12 @@ return {
       local lualine = require('lualine')
       local opts = lualine.get_config()
       opts.tabline = {
-        lualine_a = {'tabs'},
-        lualine_b = {'filename'},
+        lualine_a = {'buffers'},
+        lualine_z = {'tabs'}
       }
+      -- make separators a straight line instead of an angled lines
+      opts.options.section_separators = ''
+      opts.options.component_separators = ''
       lualine.setup(opts)
     end,
   },
