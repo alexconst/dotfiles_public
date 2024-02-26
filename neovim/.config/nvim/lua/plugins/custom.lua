@@ -20,8 +20,22 @@ return {
     },
   },
 
-  -- add any tools you want to have installed below
-  -- (if it doesn't install automatically then run LazyVim update. You can check installation with :MasonLog)
+  -- show tab number in tabs -- NOTE: shows number on left side, but only shows filename of current tab
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    config = function()
+      local lualine = require('lualine')
+      local opts = lualine.get_config()
+      opts.tabline = {
+        lualine_a = {'tabs'},
+        lualine_b = {'filename'},
+      }
+      lualine.setup(opts)
+    end,
+  },
+
+  -- add additional tools (if it doesn't install automatically then run LazyVim update. You can check installation with :MasonLog)
   {
     "williamboman/mason.nvim",
     opts = {
