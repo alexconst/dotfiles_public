@@ -13,6 +13,8 @@ set smartcase
 set hlsearch
 set nopaste
 let g:spelling_language = 'en_us'
+set wildmenu                        " vim command mode completion
+set wildmode=longest:full,full      " vim command mode completion
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -153,15 +155,22 @@ if match(&runtimepath, 'vim-markdown') != -1
     augroup END
 endif
 
+function! ToggleNerdTreeOnPath()
+    if exists("g:NERDTree") && g:NERDTree.IsOpen()
+        NERDTreeClose
+    elseif filereadable(expand('%'))
+        NERDTreeFind
+    else
+        NERDTree
+    endif
+endfunction
 if match(&runtimepath, 'nerdtree') != -1
     " show hidden files
     let NERDTreeShowHidden=1
-    " toggle nerdtree tab
-    nnoremap <C-t> :NERDTreeToggle<CR>
-    " open nerdtree tab in path of current file
-    nnoremap <C-f> :NERDTreeFind<CR>
+    " toggle nerdtree tab on path of the current file
+    nnoremap <leader>e :call ToggleNerdTreeOnPath()<CR>
     " Open the existing NERDTree on each new tab.
-"    autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+    "autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
     " match nerdtree shortcut with my own shortcut for opening files (from grepping notes). Unfortunately only one shortcut is possible (so gF doesn't work here)
     let NERDTreeMapOpenInTab='<F8>'
 endif
