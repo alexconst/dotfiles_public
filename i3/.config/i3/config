@@ -321,7 +321,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # the jgmenu integration is done in the polybar config
 
 
-# set resolution (the script should be a xrandr command; can be easily generated with arandr)
+# set resolution (the script should be a xrandr command; can be easily generated with arandr) If script doesn't exist it will just output an error in .xsession-errors
 exec_always --no-startup-id $HOME/.screenlayout/default.sh
 # set wallpaper
 exec_always --no-startup-id feh --randomize --bg-scale ~/wallpapers/*
