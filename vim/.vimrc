@@ -15,6 +15,8 @@ set nopaste
 let g:spelling_language = 'en_us'
 set wildmenu                        " vim command mode completion
 set wildmode=longest:full,full      " vim command mode completion
+"set modelines=0
+"set nomodeline
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""
