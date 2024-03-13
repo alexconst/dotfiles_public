@@ -4,8 +4,8 @@
 
 [core]
     #pager = less -+$LESS -R
-    # vim: do not ask so save on exit, disable number columns, exit on single keypress of q, enable interpretation of color codes, read only buffer
-    pager = vim +'set buftype=nofile' +'set nonumber' +'nnoremap q :q<CR>' +AnsiEsc -M -
+    # vim: disable modelines before file open, do not ask so save on exit, disable number columns, exit on single keypress of q, enable interpretation of color codes, read only buffer
+    pager = vim --cmd 'set modelines=0' +'set buftype=nofile' +'set nonumber' +'nnoremap q :q<CR>' +AnsiEsc -M -
     # vim has bugs in text wrapping with character concealment thus the flawed text width, see https://github.com/vim/vim/issues/260 Another issue is that concealed text is still searchable
 
     excludesfile = ~/.gitignore
