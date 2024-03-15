@@ -46,8 +46,8 @@ UXTerm.*.mainMenu.label:        File
 UXTerm.*.vtMenu.label:          Options
 UXTerm.*.fontMenu.label:        View
 
+
 ! Shortcuts
-!   define new CSI code for ctrl+shift+key because otherwise they would be the same as ctrl+key
 !   scroll one line up/down with alt+↑/alt+↓
 !   copy/paste to/from clipboards with ctrl+shift+c/ctrl+shift+v
 !   decrease/increase font with ctrl+- and ctrl++
@@ -55,14 +55,13 @@ UXTerm.*.fontMenu.label:        View
 !       using `*.*.translations` works too but it upsets vim (vim prints a warning about these actions not found), so we are using `xterm.*.translations` until evidence for the contrary
 !       update: it seems using `xterm...` still gets logged as an error in `~/.xsession-errors`
 xterm.*.translations: #override \n\
-    Ctrl Shift <Key>H: string("\033[1;5H") \n\
-    Ctrl Shift <Key>L: string("\033[1;5L") \n\
     Alt <KeyPress> Up: scroll-back(1, line) \n\
     Alt <KeyPress> Down: scroll-forw(1, line) \n\
     Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
     Ctrl Shift <Key>V: insert-selection(CLIPBOARD) \n\
     Ctrl <Key> minus: smaller-vt-font() \n\
     Ctrl <Key> plus: larger-vt-font()
+
 ! Note: ended up commenting these because they break usability on programs (eg: less, vim), but maybe could change them to ctrl+shift+U/D
 !   scroll half page up/down with ctrl+u/ctrl+d
 !    Ctrl <Key>U: scroll-back(1, halfpage) \n\
@@ -73,4 +72,7 @@ xterm.*.translations: #override \n\
 ! Note: I do not see a point in overriding the original ctrl+key codes
 !    Ctrl <Key>h: string("\033[1;6H") \n\
 !    Ctrl <Key>l: string("\033[1;6L") \n\
+! Note: disabled because it breaks vim recognition --  define new CSI code for ctrl+shift+key because otherwise they would be the same as ctrl+key
+!    Ctrl Shift <Key>H: string("\033[1;5H") \n\
+!    Ctrl Shift <Key>L: string("\033[1;5L") \n\
 

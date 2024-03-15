@@ -62,11 +62,11 @@ URxvt.keysym.Control-Up:        \033[1;5A
 URxvt.keysym.Control-Down:      \033[1;5B
 URxvt.keysym.Control-Left:      \033[1;5D
 URxvt.keysym.Control-Right:     \033[1;5C
-!! define new CSI code for ctrl+shift+key because otherwise they would be the same as ctrl+key
-URxvt.keysym.Shift-Control-H:   \033[1;5H
-URxvt.keysym.Shift-Control-L:   \033[1;5L
 
 ! NOTE: ended up commenting these because they break usability on programs (eg: less, vim), but maybe could change them to ctrl+shift+U/D
 !URxvt.keysym.Control-u:         eval:scroll_up 20
 !URxvt.keysym.Control-d:         eval:scroll_down 20
+!! define new CSI code for ctrl+shift+key because otherwise they would be the same as ctrl+key
+!URxvt.keysym.Shift-Control-H:   \033[1;5H
+!URxvt.keysym.Shift-Control-L:   \033[1;5L
 
