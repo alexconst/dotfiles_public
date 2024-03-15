@@ -34,6 +34,14 @@ return {
     },
   },
 
+  -- configure persistence.nvim as per barbar docs
+  {
+    "persistence.nvim",
+    event = "BufReadPre",
+    options = {--[[<other options>,]] 'globals'},
+    pre_save = function() vim.api.nvim_exec_autocmds('User', {pattern = 'SessionSavePre'}) end,
+  },
+
   -- improve tabline with scope and barbar
   {
     "tiagovla/scope.nvim",

@@ -4,22 +4,24 @@
 
 
 -- neovim workflow is centered on buffers
--- `shift+L` for next buffer
--- `shift+H` for prev buffer
-vim.api.nvim_set_keymap('n', '<C-b>', '<cmd>BufferClose<cr>', {desc = "Close tab", noremap = true, silent = false}) -- using BufferClose as per barbar; another shortcut is `<leader>bd`
-vim.api.nvim_set_keymap('n', '<leader>bl', '<C-^>', {desc = "Last buffer", noremap = true, silent = false})
+vim.api.nvim_set_keymap('n', '<S-H>', '<Cmd>BufferPrevious<CR>', {desc = 'Go to buffer on left side', noremap = true, silent = false}) -- override lazyvim so we have proper buffer navigation
+vim.api.nvim_set_keymap('n', '<S-L>', '<Cmd>BufferNext<CR>', {desc = 'Go to buffer on right side', noremap = true, silent = false})
+vim.api.nvim_set_keymap('n', '<C-H>', '<Cmd>BufferMovePrevious<CR>', {desc = 'Move buffer pane to the left', noremap = true, silent = false})
+vim.api.nvim_set_keymap('n', '<C-L>', '<Cmd>BufferMoveNext<CR>', {desc = 'Move buffer pane to the right', noremap = true, silent = false})
+vim.api.nvim_set_keymap('n', '<C-c>', '<cmd>BufferClose<cr>', {desc = "Close buffer", noremap = true, silent = false}) -- using BufferClose as per barbar; other shortcut is `<leader>bd`
+vim.api.nvim_set_keymap('n', '<leader>bl', '<C-^>', {desc = "Go back to last used buffer", noremap = true, silent = false})
+vim.api.nvim_set_keymap('n', 'gl', '<C-^>', {desc = "Go back to last used buffer", noremap = true, silent = false}) -- another binding for same thing because old habits die hard
 vim.keymap.set("n", "gb", function() return "<cmd>buffer " .. vim.v.count .. "<cr>" end, {desc = "Jump to buffer", expr = true})
+-- to open a new buffer :edit somename
 
--- but having tab navigation is still useful (ToDo: check tiagovla/scope.nvim which may increase use of tabs)
+-- but having tab navigation is still useful
 vim.api.nvim_set_keymap('n', '<C-n>', '<cmd>tabnext<cr>', {desc = "Next tab", noremap = true, silent = false})
 vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>tabprevious<cr>', {desc = "Prev tab", noremap = true, silent = false})
-vim.api.nvim_set_keymap('n', '<C-t>', '<cmd>tabclose<cr>', {desc = "Close tab", noremap = true, silent = false})
+-- vim.api.nvim_set_keymap('n', '<C-t>', '<cmd>tabclose<cr>', {desc = "Close tab", noremap = true, silent = false}) -- close tab the slow way with :q, also ctrl+t is such bad key for this
 local lastTab = vim.api.nvim_create_augroup("LastTab", { clear = true })
 vim.api.nvim_create_autocmd("TabLeave", { pattern = "*", command = "let g:lasttab = tabpagenr()", group = lastTab })
-vim.api.nvim_set_keymap('n', '<leader>tl', ':exe "tabn ".g:lasttab<CR>', {desc = "Last tab", noremap = true, silent = true})
--- `number gt` to to to tab number
+vim.api.nvim_set_keymap('n', '<leader>tl', ':exe "tabn ".g:lasttab<CR>', {desc = "Go back to last used tab", noremap = true, silent = true})
+-- use `number gt` to to to tab number
+-- to open a new tab :tabe somename
 
--- other buffer shortcuts
---vim.api.nvim_set_keymap('n', '<C-S-h>', '<Cmd>BufferMovePrevious<CR>', {desc = 'Move buffer to left', noremap = true, silent = false}) -- TODO: C-S-h
---vim.api.nvim_set_keymap('n', '<C-S-l>', '<Cmd>BufferMoveNext<CR>', {desc = 'Move buffer to right', noremap = true, silent = false})    -- TODO: C-S-l
 
