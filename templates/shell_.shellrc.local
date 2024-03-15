@@ -4,7 +4,7 @@ export _ZSH_VIMODECURSOR=1                     # enables cursor color change dep
 export _ZSH_POWERLEVEL10K=1                    # enables powerlevel10k
 
 export DATA_FOLDER="$HOME/data/home"
-export PATH="$DATA_FOLDER/bin:$PATH"
+export PATH="$PATH:$DATA_FOLDER/bin"
 
 # load aliases
 if [[ -e "$DATA_FOLDER/bin/aliases.sh" ]]; then
@@ -22,6 +22,6 @@ fi
 export TEXT_FOLDERS="$DATA_FOLDER/documents/technical|$DATA_FOLDER/documents/texts"
 
 ## maybe move to aliases?
-alias my_python="source $DATA_FOLDER/builds/mypython/bin/activate"
-alias go_venv="source venv/bin/activate"
+alias ,pymine="deactivate >&/dev/null ; source $DATA_FOLDER/builds/mypython/bin/activate"
+#alias ,pythis="deactivate >&/dev/null ; source venv/bin/activate || source .venv/bin/activate" # already defined in shellrc
 

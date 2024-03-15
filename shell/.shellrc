@@ -268,23 +268,32 @@ function incognito() {
         echo > /dev/null # nop
     fi
     unset HISTFILE
+    echo "INFO: shell history disabled"
 }
 
 # set PATH
-export PATH=$PATH:$HOME/data/home/bin:/opt/bin
+export PATH="$PATH:/opt/bin:$DOTFILES_PUBLIC/bin:$DOTFILES_PRIVATE/bin"
 
-# alias (not easily sourced from functions)
+# ALIAS (not easily sourced from functions)
+## grep
 alias grep='grep --color=auto'
 alias grepa='grep --color=always'
+## ls
 alias ls='ls --color=auto'
-## most convenient and sensible
+### most convenient and sensible
 alias l='ls -la --color=always --group-directories-first --time-style=long-iso'
-## natural sort of numbers (including versioning)
+### natural sort of numbers (including versioning)
 alias lln='ls -la --color=always --group-directories-first --time-style=long-iso -v'
-## reverse time (most recent at bottom)
+### reverse time (most recent at bottom)
 alias llr='ls -la --color=always --group-directories-first --time-style=long-iso -t -r'
-## full time (microsecond)
+### full time (microsecond)
 alias llf='ls -la --color=always --group-directories-first --full-time'
+
+# ALIAS & FUNCTIONS (using the , as prefix makes it convenient to recall shortcuts and avoids name clashes which would trigger a tab complete)
+function ,tmas() {
+    tmux attach-session ${1:+-t }$1
+}
+alias ,pythis="deactivate >&/dev/null ; source venv/bin/activate || source .venv/bin/activate"
 
 
 # main
