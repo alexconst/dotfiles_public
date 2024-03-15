@@ -43,4 +43,11 @@ require("lazy").setup({
       },
     },
   },
+  -- configure checks for plugin updates
+  checker = {
+    enabled = true,
+    notify = true,
+    frequency = 86400, -- check for updates once a day -- WIP TBC
+  },
 })
+
