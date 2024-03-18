@@ -35,11 +35,15 @@ return {
   },
 
   -- configure persistence.nvim as per barbar docs
+  -- NOTE: persistence.nvim saves sessions automatically when quitting Neovim, for usage see https://github.com/folke/persistence.nvim?tab=readme-ov-file#-usage
   {
-    "persistence.nvim",
+    "folke/persistence.nvim",
     event = "BufReadPre",
-    options = {--[[<other options>,]] 'globals'},
-    pre_save = function() vim.api.nvim_exec_autocmds('User', {pattern = 'SessionSavePre'}) end,
+    opts = { -- ← options go in `opts`
+      --options = {'globals'}, -- bare mininum for integration with barbar
+      options = {'curdir', 'buffers', 'tabpages', 'winsize', 'globals'}, -- :help sessionoptions
+      pre_save = function() vim.api.nvim_exec_autocmds('User', {pattern = 'SessionSavePre'}) end,
+    },
   },
 
   -- improve tabline with scope and barbar
