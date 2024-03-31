@@ -69,6 +69,13 @@
     # always creating a commit object avoids losing information
     menoff = merge --no-ff
 
+    # UNDO
+    undo-commit-but-keep-changes = reset HEAD~1
+    undo-commit-and-changes = reset --hard HEAD~1
+    undo-staging = reset
+    undo-changes-all = checkout .
+    undo-changes-files = checkout # expects one or more files as arguments
+
     # DIFFS
     df = diff
     dc = diff --cached
