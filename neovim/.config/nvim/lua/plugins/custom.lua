@@ -46,7 +46,6 @@ return {
     },
   },
 
-  scope_nvim_buffer_order = {},
   -- improve tabline with scope and barbar
   {
     "tiagovla/scope.nvim",
@@ -54,34 +53,15 @@ return {
     config = function()
       require("scope").setup({
         hooks = {
--- WIP: see https://github.com/romgrk/barbar.nvim/issues/556
---            pre_tab_leave = function()
---                -- Capture the current buffer order before leaving a tab
---                scope_nvim_buffer_order = {}
---                for _, buf in ipairs(vim.api.nvim_list_bufs()) do
---                    if vim.api.nvim_buf_is_loaded(buf) then
---                        table.insert(scope_nvim_buffer_order, buf)
---                    end
---                end
---                print("Pre-tab leave buffer order:")
---                for i, buf in ipairs(scope_nvim_buffer_order) do
---                    if vim.api.nvim_buf_is_loaded(buf) then
---                        print(string.format("Buffer %d: %s", i, buf))
---                    end
---                end
---            end,
---            post_tab_enter = function()
---                print("Post-tab enter buffer order:")
---                for i, buf in ipairs(scope_nvim_buffer_order) do
---                    if vim.api.nvim_buf_is_loaded(buf) then
---                        print(string.format("Buffer %d: %s", i, buf))
---                    end
---                end
---                -- Restore the buffer order upon entering a tab
---                for i, buf in ipairs(scope_nvim_buffer_order) do
---                    vim.api.nvim_set_current_buf(buf)
---                end
---            end,
+          pre_tab_leave = function()
+            vim.api.nvim_exec_autocmds('User', {pattern = 'ScopeTabLeavePre'})
+            -- [other statements]
+          end,
+          post_tab_enter = function()
+            vim.api.nvim_exec_autocmds('User', {pattern = 'ScopeTabEnterPost'})
+            -- [other statements]
+          end,
+          -- [other hooks]
         },
       })
     end
