@@ -293,8 +293,8 @@ alias llf='ls -la --color=always --group-directories-first --full-time'
 function ,tmas() {
     tmux attach-session ${1:+-t }$1
 }
-alias ,pythis="deactivate >&/dev/null ; source venv/bin/activate || source .venv/bin/activate"
-
+alias ,pyenvmine="deactivate >&/dev/null ; source $DATA_FOLDER/builds/mypython/bin/activate" # DATA_FOLDER should be set from previous source .shellrc.local
+alias ,pyenvthis="deactivate >&/dev/null ; source venv/bin/activate || source .venv/bin/activate"
 
 # main
 _set_shell

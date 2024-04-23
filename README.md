@@ -2,6 +2,8 @@
 
 How to pull and deploy your dotfiles in a brand new machine AFAP.
 
+NOTE: not all folders are (or should be used as) deployables. That includes: bin, powerlevel10k, templates.
+
 # Deploying dotfiles
 
 ## step 1: download dotfiles
@@ -34,7 +36,7 @@ Any existing files will be moved to a backup folder.
 
 Define packages:
 ```bash
-packages="shell vim"
+packages="shell vim neovim tmux"
 ```
 
 OPTION A: you have restored a complete backup of your dotfiles (eg: from a disk), so you have all files including git submodules, you're just missing the links.
