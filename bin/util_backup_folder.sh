@@ -17,7 +17,7 @@ function backup() {
         esac
         shift
     done
-    filename="${target_folder}-$(date '+%Y.%m.%d_%H:%M:%S').tar.gz"
+    filename="${target_folder}-$(date '+%Y%m%d_%H%M%S').tar.gz"
     cmd="tar --force-local ${excludes} -czf ${filename} ${target_folder}"
     echo "${cmd}"
     eval "${cmd}"
