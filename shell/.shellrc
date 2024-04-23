@@ -22,7 +22,7 @@ function __set_bash_history {
     export HISTFILESIZE=10000           # write more history
     export HISTSIZE=10000               # remember more history
     export HISTCONTROL=ignoreboth       # ignore commands beginning with a space and duplicates
-    export HISTIGNORE='ls:ls *:bg:fg:exit:clear:incognito' # ignore lame commands (tip: keep in mind they still show in current shell session, but don't get saved)
+    export HISTIGNORE='ls:bg:fg:exit:clear:incognito' # ignore lame commands (tip: keep in mind they still show in current shell session, but don't get saved)
     export PROMPT_COMMAND='history -a'  # store history immediately
 }
 
@@ -34,7 +34,7 @@ function __set_zsh_history {
     setopt incappendhistory             # history will be saved after every command you run (good for when power failures happen)
     setopt histignorealldups            # ignore duplicates
     setopt histignorespace              # ignore commands that have a leading space
-    HISTORY_IGNORE='ls|ls *|bg|fg|exit|clear|incognito'
+    HISTORY_IGNORE='ls|bg|fg|exit|clear|incognito'
 }
 
 function __set_tty {
