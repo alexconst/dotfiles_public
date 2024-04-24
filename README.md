@@ -33,6 +33,11 @@ $tool get-repo dotfiles_public
 ## step 2: install dotfiles
 
 NOTE: if the `dotfiles_public` repo is referencing any private git repos (ie: submodules) then the process may fail due to remote server definitions, and then you would have to fix it and update the submodules manually. A better option may be to simply deploy the private dotfiles first. Or even better just ensure those submodules are on github.com in the first place.
+For future reference the manual fix would consist of:
+```bash
+git submodule update --init --recursive             # download modules latest versions
+git submodule foreach --recursive git reset --hard  # reset back to version previously used
+```
 
 
 During deployment any existing files will be moved the backup folder `dotfiler_bak`.
