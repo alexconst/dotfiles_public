@@ -75,6 +75,7 @@
     undo-staging = reset
     undo-changes-all = checkout .
     undo-changes-files = checkout # expects one or more files as arguments
+    undo-update-submodules = submodule foreach --recursive git reset --hard # see https://gist.github.com/nicktoumpelis/11214362
 
     # DIFFS
     df = diff

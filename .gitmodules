@@ -22,20 +22,20 @@
 	url = https://github.com/romkatv/powerlevel10k
 
 ################################################################
-# vim - local repos
+# vim - NO LONGER local repos
 ################################################################
 [submodule "vim/.vim/bundle/vim-markdown"]
 	path = vim/.vim/bundle/vim-markdown
-	url = ssh://softserve/vim-markdown
+	url = https://github.com/alexconst/vim-markdown
 	branch = feat/toc_location
 [submodule "vim/.vim/bundle/vim-pajema"]
 	path = vim/.vim/bundle/vim-pajema
-	url = ssh://softserve/vim-pajema
+	url = https://github.com/alexconst/vim-pajema
 	branch = master
 [submodule "vim/.vim/bundle/vim-colors-solarized"]
 	path = vim/.vim/bundle/vim-colors-solarized
-	url = ssh://softserve/vim-colors-solarized
-	branch = develop
+	url = https://github.com/alexconst/vim-colors-solarized
+	branch = master
 
 ################################################################
 # tmux
