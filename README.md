@@ -89,7 +89,7 @@ cat $HOME/dotfiler_bak/authorized_keys >> $HOME/.ssh/authorized_keys
 
 ## step 4: configure git remote
 
-This will update the git remote endpoint settings for the dotfiles_public repo. It sets the remote to make use of the `~/.ssh/config` settings, which helps when the git server requires authentication (to push).
+This will update the git remote endpoint settings for the `dotfiles_public` repo. It sets the remote to make use of the `~/.ssh/config` settings. This is required if you cloned your dotfiles (as opposed to a local storage backup restore) and you want to push to a git server.
 Make sure your `~/.ssh/config` is properly set and you have any required keys.
 ```bash
 export git_server='softserve' ; export git_port='' ; export git_name='home'
