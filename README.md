@@ -110,6 +110,7 @@ $tool set-remote
 
 ## wallpapers
 Least I forget about this again; the default wallpapers are in the `vagrant_recipes/blank-debian12-local` folder. Not sure what I was thinking back then. Maybe I'll move them to this `dotfiles_public` folder instead.
+Typical process: `cp -r /vagrant/wallpapers ~/`
 
 
 # Managing dotfiles
