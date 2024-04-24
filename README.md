@@ -59,9 +59,9 @@ $tool    adopt-dotfiles ~/dotfiles_public $packagename $dotfile1 ... $dotfileN
 
 ## step 3: private dotfiles
 
-Create folder structure for private dotfiles (ie these are not stored in the remote git server). It doesn't stow anything automatically, you have to do it manually.
+OPTIONAL: if you don't have private dotfiles yet, then create a folder scaffold for them, and stow some files
 ```bash
-# if you don't have such files yet then create a template
+# create a template:
 $tool -n private-template ~/dotfiles_private
 $tool    private-template ~/dotfiles_private
 
@@ -69,13 +69,20 @@ $tool    private-template ~/dotfiles_private
 mv ~/.ssh ~/dotfiles_private/ssh/
 cd dotfiles_private
 echo ".ssh" > .gitignore # optional and will change depending if or to where you'll be pushing dotfiles_private
+```
 
+
+Now deploy your private dotfiles:
+```bash
 # and finally deploy (ie link back)
 ###stow ssh
 ###stow shell
-packages="shell ssh"
+packages="shell ssh other"
 $tool -n deploy-dotfiles-from-local ~/dotfiles_private $packages
 $tool    deploy-dotfiles-from-local ~/dotfiles_private $packages
+
+# VERY IMPORTANT to prevent you getting locked out (especially in vagrant VMs). Adjust as needed
+cat $HOME/dotfiler_bak/authorized_keys >> $HOME/.ssh/authorized_keys
 ```
 
 
