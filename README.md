@@ -32,11 +32,15 @@ $tool get-repo dotfiles_public
 
 ## step 2: install dotfiles
 
-Any existing files will be moved to a backup folder.
+NOTE: if the `dotfiles_public` repo is referencing any private git repos (ie: submodules) then the process may fail due to remote server definitions, and then you would have to fix it and update the submodules manually. A better option may be to simply deploy the private dotfiles first. Or even better just ensure those submodules are on github.com in the first place.
+
+
+During deployment any existing files will be moved the backup folder `dotfiler_bak`.
 
 Define packages:
 ```bash
 packages="shell vim neovim tmux"
+#packages="shell vim neovim tmux wmde i3"
 ```
 
 OPTION A: you have restored a complete backup of your dotfiles (eg: from a disk), so you have all files including git submodules, you're just missing the links.
@@ -56,6 +60,7 @@ OPTION C: you want to adopt existing dotfiles and bring them into your dotfiles 
 $tool -n adopt-dotfiles ~/dotfiles_public $packagename $dotfile1 ... $dotfileN
 $tool    adopt-dotfiles ~/dotfiles_public $packagename $dotfile1 ... $dotfileN
 ```
+
 
 ## step 3: private dotfiles
 
